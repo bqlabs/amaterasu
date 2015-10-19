@@ -69,11 +69,9 @@ def main():
     else:
         print "Timeout reading cameras"
 
-    left_picture, right_picture = capture_stereo_pair_without_sync(left_camera, right_camera)
+    left_picture, right_picture = capture_stereo_pair(left_camera, right_camera)
 
-    combined_image = np.zeros((webcam_resolution[1], webcam_resolution[0]*2, 3))
-    combined_image[:, :640, :] = left_picture
-    combined_image[:, 640:, :] = right_picture
+    combined_image = np.concatenate((left_picture, right_picture), axis=1)
 
     cv2.imshow('Left image', left_picture)
     cv2.imshow('Right image', right_picture)
