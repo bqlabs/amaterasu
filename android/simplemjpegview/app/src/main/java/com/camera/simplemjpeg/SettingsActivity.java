@@ -44,6 +44,26 @@ public class SettingsActivity extends Activity {
     RadioGroup port_group;
     RadioGroup command_group;
 
+    EditText right_eye_address1_input;
+    EditText right_eye_address2_input;
+    EditText right_eye_address3_input;
+    EditText right_eye_address4_input;
+    EditText right_eye_port_input;
+    EditText right_eye_command_input;
+
+    Button right_eye_address1_increment;
+    Button right_eye_address2_increment;
+    Button right_eye_address3_increment;
+    Button right_eye_address4_increment;
+
+    Button right_eye_address1_decrement;
+    Button right_eye_address2_decrement;
+    Button right_eye_address3_decrement;
+    Button right_eye_address4_decrement;
+
+    RadioGroup right_eye_port_group;
+    RadioGroup right_eye_command_group;
+
     int width = 640;
     int height = 480;
 
@@ -54,6 +74,13 @@ public class SettingsActivity extends Activity {
     int ip_port = 80;
     String ip_command = "?action=stream";
 
+    int right_eye_ip_ad1 = 192;
+    int right_eye_ip_ad2 = 168;
+    int right_eye_ip_ad3 = 2;
+    int right_eye_ip_ad4 = 1;
+    int right_eye_ip_port = 80;
+    String right_eye_ip_command = "?action=stream";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +88,9 @@ public class SettingsActivity extends Activity {
 
         Bundle extras = getIntent().getExtras();
 
+        //-- UI Setup
+        //------------------------------------------------------------------------------
+        //-- Common elements
         ArrayAdapter<CharSequence> adapter =
                 ArrayAdapter.createFromResource(this, R.array.resolution_array,
                         android.R.layout.simple_spinner_item);
@@ -72,6 +102,7 @@ public class SettingsActivity extends Activity {
         width_input = (EditText) findViewById(R.id.width_input);
         height_input = (EditText) findViewById(R.id.height_input);
 
+        //-- Left eye stream elements
         address1_input = (EditText) findViewById(R.id.address1_input);
         address2_input = (EditText) findViewById(R.id.address2_input);
         address3_input = (EditText) findViewById(R.id.address3_input);
@@ -82,7 +113,18 @@ public class SettingsActivity extends Activity {
         port_group = (RadioGroup) findViewById(R.id.port_radiogroup);
         command_group = (RadioGroup) findViewById(R.id.command_radiogroup);
 
-        // Set up tabs
+        //-- Right eye stream elements
+        right_eye_address1_input = (EditText) findViewById(R.id.right_eye_address1_input);
+        right_eye_address2_input = (EditText) findViewById(R.id.right_eye_address2_input);
+        right_eye_address3_input = (EditText) findViewById(R.id.right_eye_address3_input);
+        right_eye_address4_input = (EditText) findViewById(R.id.right_eye_address4_input);
+        right_eye_port_input = (EditText) findViewById(R.id.right_eye_port_input);
+        right_eye_command_input = (EditText) findViewById(R.id.right_eye_command_input);
+
+        right_eye_port_group = (RadioGroup) findViewById(R.id.right_eye_port_radiogroup);
+        right_eye_command_group = (RadioGroup) findViewById(R.id.right_eye_command_radiogroup);
+
+        //-- Set up tabs
         final TabHost tabHost = (TabHost)findViewById(R.id.tab_host);
         if (tabHost != null) {
             tabHost.setup();
