@@ -1,19 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-    <com.camera.simplemjpeg.MjpegView
-		android:id="@+id/mv"
-        android:layout_width="0dip"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#0000cc"
+    tools:context=".FullscreenActivity">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+    <LinearLayout android:id="@+id/fullscreen_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-		android:layout_weight="1"
-        />
-    <com.camera.simplemjpeg.MjpegView
-        android:id="@+id/mv2"
-        android:layout_width="0dip"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        />
-</LinearLayout>
+        android:keepScreenOn="true"
+        >
+        <com.camera.simplemjpeg.MjpegView
+            android:id="@+id/left_eye_mv"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            />
+        <com.camera.simplemjpeg.MjpegView
+            android:id="@+id/right_eye_mv"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+
+    <!-- This FrameLayout insets its children based on system windows using
+     android:fitsSystemWindows. -->
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout android:id="@+id/fullscreen_content_controls" style="?metaButtonBarStyle"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@color/black_overlay" android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <!-- Put controls here -->
+
+        </LinearLayout>
+
+    </FrameLayout>
+</FrameLayout>

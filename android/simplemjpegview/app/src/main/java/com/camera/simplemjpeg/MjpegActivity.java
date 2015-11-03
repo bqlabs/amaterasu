@@ -11,6 +11,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import android.annotation.SuppressLint;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.view.View;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -21,16 +27,26 @@ import org.apache.http.params.HttpParams;
 import java.io.IOException;
 import java.net.URI;
 
-public class MjpegActivity extends Activity {
+public class MjpegActivity extends AppCompatActivity {
+    //-- Activity things
     private static final boolean DEBUG = false;
     private static final String TAG = "MJPEG";
 
-    private MjpegView mv = null;
+    //-- Fullscreen properties
+    private static final boolean AUTO_HIDE = true;
+    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
+    private static final int UI_ANIMATION_DELAY = 300;
+
+    private View mContentView;
+    private View mControlsView;
+    private boolean mVisible;
+
+    //-- Viewers
+    private MjpegView left_eye_mv = null;
+    private MjpegView right_eye_mv = null;
     String URL;
 
-    private MjpegView mv2 = null;
-
-    // for settings (network and resolution)
+    //-- Stream settings (network and resolution)
     private static final int REQUEST_SETTINGS = 0;
 
     private int width = 640;
@@ -45,11 +61,12 @@ public class MjpegActivity extends Activity {
 
     private boolean suspending = false;
 
-    final Handler handler = new Handler();
+    final Handler imErrorHandler = new Handler();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //-- Get Streamer properties
         SharedPreferences preferences = getSharedPreferences("SAVED_VALUES", MODE_PRIVATE);
         width = preferences.getInt("width", width);
         height = preferences.getInt("height", height);
@@ -79,27 +96,45 @@ public class MjpegActivity extends Activity {
         sb.append(ip_command);
         URL = new String(sb);
 
+        //-- Set Activity layout
         setContentView(R.layout.main);
-        mv = (MjpegView) findViewById(R.id.mv);
-        if (mv != null) {
-            mv.setResolution(width, height);
+
+        //-- Set left and right eye viewers
+        left_eye_mv = (MjpegView) findViewById(R.id.left_eye_mv);
+        if (left_eye_mv != null) {
+            left_eye_mv.setResolution(width, height);
         }
 
-        mv2 = (MjpegView) findViewById(R.id.mv2);
-        if (mv2 != null) {
-            mv2.setResolution(width, height);
+        right_eye_mv = (MjpegView) findViewById(R.id.right_eye_mv);
+        if (right_eye_mv != null) {
+            right_eye_mv.setResolution(width, height);
         }
 
+        //--  Set title
         setTitle(R.string.title_connecting);
+
+        //-- Setup fullscreen things
+        mVisible = true;
+        mControlsView = findViewById(R.id.fullscreen_content_controls);
+        mContentView = findViewById(R.id.fullscreen_content);
+
+        // Set up the user interaction to manually show or hide the system UI.
+        mContentView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggle();
+            }
+        });
+
+        //-- Call streamer functions
         new DoRead().execute(URL, "left");
         new DoRead().execute(URL, "right");
     }
 
-
     public void onResume() {
         if (DEBUG) Log.d(TAG, "onResume()");
         super.onResume();
-        if (mv != null && mv2 != null) {
+        if (left_eye_mv != null && right_eye_mv != null) {
             if (suspending) {
                 new DoRead().execute(URL, "left");
                 new DoRead().execute(URL, "right");
@@ -117,15 +152,15 @@ public class MjpegActivity extends Activity {
     public void onPause() {
         if (DEBUG) Log.d(TAG, "onPause()");
         super.onPause();
-        if (mv != null) {
-            if (mv.isStreaming()) {
-                mv.stopPlayback();
+        if (left_eye_mv != null) {
+            if (left_eye_mv.isStreaming()) {
+                left_eye_mv.stopPlayback();
                 suspending = true;
             }
         }
-        if (mv2 != null) {
-            if (mv2.isStreaming()) {
-                mv2.stopPlayback();
+        if (right_eye_mv != null) {
+            if (right_eye_mv.isStreaming()) {
+                right_eye_mv.stopPlayback();
                 suspending = true;
             }
         }
@@ -139,15 +174,25 @@ public class MjpegActivity extends Activity {
     public void onDestroy() {
         if (DEBUG) Log.d(TAG, "onDestroy()");
 
-        if (mv != null) {
-            mv.freeCameraMemory();
+        if (left_eye_mv != null) {
+            left_eye_mv.freeCameraMemory();
         }
 
-        if (mv2 != null) {
-            mv2.freeCameraMemory();
+        if (right_eye_mv != null) {
+            right_eye_mv.freeCameraMemory();
         }
 
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        // Trigger the initial hide() shortly after the activity has been
+        // created, to briefly hint to the user that UI controls
+        // are available.
+        delayedHide(100);
     }
 
     @Override
@@ -189,11 +234,11 @@ public class MjpegActivity extends Activity {
                     ip_port = data.getIntExtra("ip_port", ip_port);
                     ip_command = data.getStringExtra("ip_command");
 
-                    if (mv != null) {
-                        mv.setResolution(width, height);
+                    if (left_eye_mv != null) {
+                        left_eye_mv.setResolution(width, height);
                     }
-                    if (mv2 != null) {
-                        mv2.setResolution(width, height);
+                    if (right_eye_mv != null) {
+                        right_eye_mv.setResolution(width, height);
                     }
 
                     SharedPreferences preferences = getSharedPreferences("SAVED_VALUES", MODE_PRIVATE);
@@ -216,13 +261,111 @@ public class MjpegActivity extends Activity {
     }
 
     public void setImageError() {
-        handler.post(new Runnable() {
+        imErrorHandler.post(new Runnable() {
             @Override
             public void run() {
                 setTitle(R.string.title_imageerror);
                 return;
             }
         });
+
+
+    }
+
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (AUTO_HIDE) {
+                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+            }
+            return false;
+        }
+    };
+
+    private void toggle() {
+        if (mVisible) {
+            hide();
+        } else {
+            show();
+        }
+    }
+
+    private void hide() {
+        // Hide UI first
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+        mControlsView.setVisibility(View.GONE);
+        mVisible = false;
+
+        // Schedule a runnable to remove the status and navigation bar after a delay
+        mHideHandler.removeCallbacks(mShowPart2Runnable);
+        mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY);
+    }
+
+    private final Runnable mHidePart2Runnable = new Runnable() {
+        @SuppressLint("InlinedApi")
+        @Override
+        public void run() {
+            // Delayed removal of status and navigation bar
+
+            // Note that some of these constants are new as of API 16 (Jelly Bean)
+            // and API 19 (KitKat). It is safe to use them, as they are inlined
+            // at compile-time and do nothing on earlier devices.
+            mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        }
+    };
+
+    @SuppressLint("InlinedApi")
+    private void show() {
+        // Show the system bar
+        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        mVisible = true;
+
+        // Schedule a runnable to display UI elements after a delay
+        mHideHandler.removeCallbacks(mHidePart2Runnable);
+        mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
+    }
+
+    private final Runnable mShowPart2Runnable = new Runnable() {
+        @Override
+        public void run() {
+            // Delayed display of UI elements
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.show();
+            }
+            mControlsView.setVisibility(View.VISIBLE);
+        }
+    };
+
+    private final Handler mHideHandler = new Handler();
+    private final Runnable mHideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            hide();
+        }
+    };
+
+    /**
+     * Schedules a call to hide() in [delay] milliseconds, canceling any
+     * previously scheduled calls.
+     */
+    private void delayedHide(int delayMillis) {
+        mHideHandler.removeCallbacks(mHideRunnable);
+        mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
     public class DoRead extends AsyncTask<String, Void, MjpegInputStream> {
@@ -267,28 +410,28 @@ public class MjpegActivity extends Activity {
 
         protected void onPostExecute(MjpegInputStream result) {
             if (eye.equals("left")) {
-                Log.i("STEREO", "Left eye frame");
-                mv.setSource(result);
+                Log.i(TAG, "Left eye frame");
+                left_eye_mv.setSource(result);
                 if (result != null) {
                     result.setSkip(1);
                     setTitle(R.string.app_name);
                 } else {
                     setTitle(R.string.title_disconnected);
                 }
-                mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
-                mv.showFps(false);
+                left_eye_mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
+                left_eye_mv.showFps(false);
             }
             else if (eye.equals("right")) {
-                Log.i("STEREO", "Right eye frame");
-                mv2.setSource(result);
+                Log.i(TAG, "Right eye frame");
+                right_eye_mv.setSource(result);
                 if (result != null) {
                     result.setSkip(1);
                     setTitle(R.string.app_name);
                 } else {
                     setTitle(R.string.title_disconnected);
                 }
-                mv2.setDisplayMode(MjpegView.SIZE_BEST_FIT);
-                mv2.showFps(false);
+                right_eye_mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
+                right_eye_mv.showFps(false);
             }
         }
     }
