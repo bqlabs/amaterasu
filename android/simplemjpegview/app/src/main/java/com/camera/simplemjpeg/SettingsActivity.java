@@ -3,6 +3,7 @@ package com.camera.simplemjpeg;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,9 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.TextView.BufferType;
 
 public class SettingsActivity extends Activity {
+
+    private static final String TAG = "MJPEG";
 
     Button settings_done;
 
@@ -77,6 +81,25 @@ public class SettingsActivity extends Activity {
 
         port_group = (RadioGroup) findViewById(R.id.port_radiogroup);
         command_group = (RadioGroup) findViewById(R.id.command_radiogroup);
+
+        // Set up tabs
+        final TabHost tabHost = (TabHost)findViewById(R.id.tab_host);
+        if (tabHost != null) {
+            tabHost.setup();
+
+            TabHost.TabSpec spec1 = tabHost.newTabSpec("Left Eye");
+            spec1.setContent(R.id.tab1);
+            spec1.setIndicator("Left Eye", null);
+
+            TabHost.TabSpec spec2 = tabHost.newTabSpec("Right Eye");
+            spec2.setContent(R.id.tab2);
+            spec2.setIndicator("Right Eye", null);
+
+            tabHost.addTab(spec1);
+            tabHost.addTab(spec2);
+        } else {
+            Log.e(TAG, "TabHost not loaded");
+        }
 
         if (extras != null) {
             width = extras.getInt("width", width);

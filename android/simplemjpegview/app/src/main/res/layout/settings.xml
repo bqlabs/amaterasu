@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+	android:background="@color/black_overlay">
     
     <LinearLayout
 		android:layout_width="fill_parent"
@@ -23,248 +24,496 @@
 			    android:layout_height="wrap_content">
 			</Spinner>  
 		</LinearLayout>
-		<LinearLayout
-    		android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:gravity="center">
-			<EditText 
-				android:id="@+id/width_input"
-				android:layout_width="80dp" 
-				android:layout_height="wrap_content"
-				android:gravity="right|center_vertical"
-				android:singleLine="true"
-				android:inputType="number"
-				android:maxLength="4"/>
-			<TextView
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" 
-				android:text="@string/resolution_times"/>
-			<EditText 
-				android:id="@+id/height_input"
-				android:layout_width="80dp" 
-				android:layout_height="wrap_content"
-				android:gravity="right|center_vertical"
-				android:singleLine="true"
-				android:inputType="number"
-				android:maxLength="4"/>
-		</LinearLayout>
 
-    	<TextView
-			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:text="@string/ip_setting_label"/>
-    	
-    	<LinearLayout
-    		android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:gravity="center">
-			
-			<!-- address1 -->
-			<LinearLayout
-    				android:orientation="vertical"
-    				android:layout_gravity="center_horizontal"
-    				android:layout_width="wrap_content"
-    				android:layout_height="wrap_content">
-				 
-				    <Button android:id="@+id/address1_increment" 
-				        android:layout_width="fill_parent"
-				        android:layout_height="wrap_content"
-				        android:text="@string/digits_increment"/>
-				 
-				    <EditText 
-				        android:id="@+id/address1_input"
-				        android:layout_width="60dp" 
-				        android:layout_height="wrap_content"
-				        android:gravity="right|center_vertical"
-				        android:singleLine="true"
-						android:inputType="number"
-						android:maxLength="3"/>
-				 
-				    <Button 
-				        android:id="@+id/address1_decrement" 
-				        android:layout_width="fill_parent"
-				        android:layout_height="wrap_content"
-				        android:text="@string/digits_decrement"/>
-			</LinearLayout>
-    	    <TextView
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" 
-				android:text="@string/address_dot"/>
-    	    
- 			<!-- address2 -->
-			<LinearLayout
-    				android:orientation="vertical"
-    				android:layout_gravity="center_horizontal"
-    				android:layout_width="wrap_content"
-    				android:layout_height="wrap_content">
-				 
-				    <Button android:id="@+id/address2_increment" 
-				        android:layout_width="fill_parent"
-				        android:layout_height="wrap_content"
-				        android:text="@string/digits_increment"/>
-				 
-				    <EditText 
-				        android:id="@+id/address2_input"
-				        android:layout_width="60dp" 
-				        android:layout_height="wrap_content"
-				        android:gravity="right|center_vertical"
-				        android:singleLine="true"
-						android:inputType="number"
-						android:maxLength="3"/>
-				 
-				    <Button 
-				        android:id="@+id/address2_decrement" 
-				        android:layout_width="fill_parent"
-				        android:layout_height="wrap_content"
-				        android:text="@string/digits_decrement"/>
-			</LinearLayout>
-    	    <TextView
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" 
-				android:text="@string/address_dot"/>   	    
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <EditText
+                android:id="@+id/width_input"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="right|center_vertical"
+                android:singleLine="true"
+                android:inputType="number"
+                android:maxLength="4"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/resolution_times"/>
+            <EditText
+                android:id="@+id/height_input"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:gravity="right|center_vertical"
+                android:singleLine="true"
+                android:inputType="number"
+                android:maxLength="4"/>
+        </LinearLayout>
 
-			<!-- address3 -->
-			<LinearLayout
-    				android:orientation="vertical"
-    				android:layout_gravity="center_horizontal"
-    				android:layout_width="wrap_content"
-    				android:layout_height="wrap_content">
-				 
-				    <Button android:id="@+id/address3_increment" 
-				        android:layout_width="fill_parent"
-				        android:layout_height="wrap_content"
-				        android:text="@string/digits_increment"/>
-				 
-				    <EditText 
-				        android:id="@+id/address3_input"
-				        android:layout_width="60dp" 
-				        android:layout_height="wrap_content"
-				        android:gravity="right|center_vertical"
-				        android:singleLine="true"
-						android:inputType="number"
-						android:maxLength="3"
-						android:digits="0123456789"/>
-				 
-				    <Button 
-				        android:id="@+id/address3_decrement" 
-				        android:layout_width="fill_parent"
-				        android:layout_height="wrap_content"
-				        android:text="@string/digits_decrement"/>
-			</LinearLayout>
-    	    <TextView
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" 
-				android:text="@string/address_dot"/>    
-				
-			<!-- address4 -->
-			<LinearLayout
-    				android:orientation="vertical"
-    				android:layout_gravity="center_horizontal"
-    				android:layout_width="wrap_content"
-    				android:layout_height="wrap_content">
-				 
-				    <Button android:id="@+id/address4_increment" 
-				        android:layout_width="fill_parent"
-				        android:layout_height="wrap_content"
-				        android:text="@string/digits_increment"/>
-				 
-				    <EditText 
-				        android:id="@+id/address4_input"
-				        android:layout_width="60dp" 
-				        android:layout_height="wrap_content"
-				        android:gravity="right|center_vertical"
-				        android:singleLine="true"
-						android:inputType="number"
-						android:maxLength="3"/>
-				 
-				    <Button 
-				        android:id="@+id/address4_decrement" 
-				        android:layout_width="fill_parent"
-				        android:layout_height="wrap_content"
-				        android:text="@string/digits_decrement"/>
-			</LinearLayout>
-	    
-    	    	    	    
-    	</LinearLayout>
-    	
-     	<TextView
-			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:text="@string/port_setting_label"/>
-     	
-    	<LinearLayout
-    		android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:gravity="center">
-			
-			<EditText 
-				android:id="@+id/port_input"
-				android:layout_width="80dp" 
-				android:layout_height="wrap_content"
-				android:gravity="right|center_vertical"
-				android:singleLine="true"
-				android:inputType="number"
-				android:maxLength="4"/>
-			
-			   <RadioGroup 
-			       	android:id="@+id/port_radiogroup"
-			       	android:orientation="vertical"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content">
-			        <RadioButton android:id="@+id/port_80"
-			            android:layout_width="wrap_content"
-			            android:layout_height="wrap_content"
-			            android:text="@string/port_80_with_explanation" />
-			        <RadioButton android:id="@+id/port_8080"
-			            android:layout_width="wrap_content"
-			            android:layout_height="wrap_content"
-			            android:text="@string/port_8080_with_explanation" />
-    			</RadioGroup>
-			
-    	 </LinearLayout>
-     	
-     	<TextView
-			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:text="@string/command_setting_label"/>
+        <TabHost android:layout_width="fill_parent"
+            android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tab_host">
 
-		<LinearLayout
-    		android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:gravity="center">
-			<EditText
-					android:id="@+id/command_input"
-					android:layout_width="200dp" 
-					android:layout_height="wrap_content"
-					android:gravity="left|center_vertical"
-					android:singleLine="true"
-					android:inputType="text" />
-		</LinearLayout>
+            <LinearLayout
+                android:id="@+id/LinearLayout01"
+                android:orientation="vertical"
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent">
 
-			<RadioGroup 
-				       	android:id="@+id/command_radiogroup"
-				       	android:orientation="vertical"
-				        android:layout_width="fill_parent"
-				        android:layout_height="wrap_content"
-				        android:gravity="center">
-				        <RadioButton android:id="@+id/command_streaming"
-				            android:layout_width="wrap_content"
-				            android:layout_height="wrap_content"
-				            android:text="@string/command_streaming_with_explanation" />
-				        <RadioButton android:id="@+id/command_videofeed"
-				            android:layout_width="wrap_content"
-				            android:layout_height="wrap_content"
-				            android:text="@string/command_videofeed_with_explanation" />
-			</RadioGroup>
+                <TabWidget android:id="@android:id/tabs"
+                    android:layout_height="wrap_content" android:layout_width="fill_parent"></TabWidget>
 
-     			
-		<Button android:id="@+id/settings_done"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/settings_done" />
+                <FrameLayout android:id="@android:id/tabcontent"
+                android:layout_height="fill_parent" android:layout_width="fill_parent">
+
+                    <LinearLayout
+                        android:id="@+id/tab1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ip_setting_label"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+
+                            <!-- address1 -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <Button android:id="@+id/address1_increment"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_increment"/>
+
+                                <EditText
+                                    android:id="@+id/address1_input"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="right|center_vertical"
+                                    android:singleLine="true"
+                                    android:inputType="number"
+                                    android:maxLength="3"/>
+
+                                <Button
+                                    android:id="@+id/address1_decrement"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_decrement"/>
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/address_dot"/>
+
+                            <!-- address2 -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <Button android:id="@+id/address2_increment"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_increment"/>
+
+                                <EditText
+                                    android:id="@+id/address2_input"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="right|center_vertical"
+                                    android:singleLine="true"
+                                    android:inputType="number"
+                                    android:maxLength="3"/>
+
+                                <Button
+                                    android:id="@+id/address2_decrement"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_decrement"/>
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/address_dot"/>
+
+                            <!-- address3 -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <Button android:id="@+id/address3_increment"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_increment"/>
+
+                                <EditText
+                                    android:id="@+id/address3_input"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="right|center_vertical"
+                                    android:singleLine="true"
+                                    android:inputType="number"
+                                    android:maxLength="3"
+                                    android:digits="0123456789"/>
+
+                                <Button
+                                    android:id="@+id/address3_decrement"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_decrement"/>
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/address_dot"/>
+
+                            <!-- address4 -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <Button android:id="@+id/address4_increment"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_increment"/>
+
+                                <EditText
+                                    android:id="@+id/address4_input"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="right|center_vertical"
+                                    android:singleLine="true"
+                                    android:inputType="number"
+                                    android:maxLength="3"/>
+
+                                <Button
+                                    android:id="@+id/address4_decrement"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_decrement"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/port_setting_label"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+
+                            <EditText
+                                android:id="@+id/port_input"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="right|center_vertical"
+                                android:singleLine="true"
+                                android:inputType="number"
+                                android:maxLength="4"/>
+
+                            <RadioGroup
+                                android:id="@+id/port_radiogroup"
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                                <RadioButton android:id="@+id/port_80"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/port_80_with_explanation" />
+                                <RadioButton android:id="@+id/port_8080"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/port_8080_with_explanation" />
+                            </RadioGroup>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/command_setting_label"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+                            <EditText
+                                android:id="@+id/command_input"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="left|center_vertical"
+                                android:singleLine="true"
+                                android:inputType="text" />
+                        </LinearLayout>
+
+                        <RadioGroup
+                            android:id="@+id/command_radiogroup"
+                            android:orientation="vertical"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+                            <RadioButton android:id="@+id/command_streaming"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/command_streaming_with_explanation" />
+                            <RadioButton android:id="@+id/command_videofeed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/command_videofeed_with_explanation" />
+                        </RadioGroup>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tab2"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ip_setting_label"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+
+                            <!-- address1 -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <Button android:id="@+id/right_eye_address1_increment"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_increment"/>
+
+                                <EditText
+                                    android:id="@+id/right_eye_address1_input"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="right|center_vertical"
+                                    android:singleLine="true"
+                                    android:inputType="number"
+                                    android:maxLength="3"/>
+
+                                <Button
+                                    android:id="@+id/right_eye_address1_decrement"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_decrement"/>
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/address_dot"/>
+
+                            <!-- address2 -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <Button android:id="@+id/right_eye_address2_increment"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_increment"/>
+
+                                <EditText
+                                    android:id="@+id/right_eye_address2_input"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="right|center_vertical"
+                                    android:singleLine="true"
+                                    android:inputType="number"
+                                    android:maxLength="3"/>
+
+                                <Button
+                                    android:id="@+id/right_eye_address2_decrement"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_decrement"/>
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/address_dot"/>
+
+                            <!-- address3 -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <Button android:id="@+id/right_eye_address3_increment"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_increment"/>
+
+                                <EditText
+                                    android:id="@+id/right_eye_address3_input"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="right|center_vertical"
+                                    android:singleLine="true"
+                                    android:inputType="number"
+                                    android:maxLength="3"
+                                    android:digits="0123456789"/>
+
+                                <Button
+                                    android:id="@+id/right_eye_address3_decrement"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_decrement"/>
+                            </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/address_dot"/>
+
+                            <!-- address4 -->
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <Button android:id="@+id/right_eye_address4_increment"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_increment"/>
+
+                                <EditText
+                                    android:id="@+id/right_eye_address4_input"
+                                    android:layout_width="60dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="right|center_vertical"
+                                    android:singleLine="true"
+                                    android:inputType="number"
+                                    android:maxLength="3"/>
+
+                                <Button
+                                    android:id="@+id/right_eye_address4_decrement"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/digits_decrement"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/port_setting_label"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+
+                            <EditText
+                                android:id="@+id/right_eye_port_input"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="right|center_vertical"
+                                android:singleLine="true"
+                                android:inputType="number"
+                                android:maxLength="4"/>
+
+                            <RadioGroup
+                                android:id="@+id/right_eye_port_radiogroup"
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                                <RadioButton android:id="@+id/right_eye_port_80"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/port_80_with_explanation" />
+                                <RadioButton android:id="@+id/right_eye_port_8080"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/port_8080_with_explanation" />
+                            </RadioGroup>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/command_setting_label"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+                            <EditText
+                                android:id="@+id/right_eye_command_input"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="left|center_vertical"
+                                android:singleLine="true"
+                                android:inputType="text" />
+                        </LinearLayout>
+
+                        <RadioGroup
+                            android:id="@+id/right_eye_command_radiogroup"
+                            android:orientation="vertical"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+                            <RadioButton android:id="@+id/right_eye_command_streaming"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/command_streaming_with_explanation" />
+                            <RadioButton android:id="@+id/right_eye_command_videofeed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/command_videofeed_with_explanation" />
+                        </RadioGroup>
+
+
+                    </LinearLayout>
+
+                    </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+
+        <Button android:id="@+id/settings_done"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:text="@string/settings_done" />
+
     </LinearLayout>
 </ScrollView>
