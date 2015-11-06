@@ -144,9 +144,15 @@ public class SettingsActivity extends Activity {
         }
 
         if (extras != null) {
+            //-- Configure common
             width = extras.getInt("width", width);
             height = extras.getInt("height", height);
 
+            width_input.setText(String.valueOf(width));
+            height_input.setText(String.valueOf(height));
+            resolution_spinner.setSelection(adapter.getCount() - 1);
+
+            //-- Configure left eye
             ip_ad1 = extras.getInt("ip_ad1", ip_ad1);
             ip_ad2 = extras.getInt("ip_ad2", ip_ad2);
             ip_ad3 = extras.getInt("ip_ad3", ip_ad3);
@@ -154,16 +160,27 @@ public class SettingsActivity extends Activity {
             ip_port = extras.getInt("ip_port", ip_port);
             ip_command = extras.getString("ip_command");
 
-            width_input.setText(String.valueOf(width));
-            height_input.setText(String.valueOf(height));
-            resolution_spinner.setSelection(adapter.getCount() - 1);
-
             address1_input.setText(String.valueOf(ip_ad1));
             address2_input.setText(String.valueOf(ip_ad2));
             address3_input.setText(String.valueOf(ip_ad3));
             address4_input.setText(String.valueOf(ip_ad4));
             port_input.setText(String.valueOf(ip_port));
             command_input.setText(ip_command);
+
+            //-- Configure right eye
+            right_eye_ip_ad1 = extras.getInt("right_eye_ip_ad1", right_eye_ip_ad1);
+            right_eye_ip_ad2 = extras.getInt("right_eye_ip_ad2", right_eye_ip_ad2);
+            right_eye_ip_ad3 = extras.getInt("right_eye_ip_ad3", right_eye_ip_ad3);
+            right_eye_ip_ad4 = extras.getInt("right_eye_ip_ad4", right_eye_ip_ad4);
+            right_eye_ip_port = extras.getInt("right_eye_ip_port", right_eye_ip_port);
+            right_eye_ip_command = extras.getString("right_eye_ip_command");
+
+            right_eye_address1_input.setText(String.valueOf(right_eye_ip_ad1));
+            right_eye_address2_input.setText(String.valueOf(right_eye_ip_ad2));
+            right_eye_address3_input.setText(String.valueOf(right_eye_ip_ad3));
+            right_eye_address4_input.setText(String.valueOf(right_eye_ip_ad4));
+            right_eye_port_input.setText(String.valueOf(right_eye_ip_port));
+            right_eye_command_input.setText(right_eye_ip_command);
         }
 
         resolution_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -197,6 +214,7 @@ public class SettingsActivity extends Activity {
             }
         });
 
+        //-- Left eye GUI configuration
         address1_increment = (Button) findViewById(R.id.address1_increment);
         address1_increment.setOnClickListener(
                 new View.OnClickListener() {
@@ -404,6 +422,215 @@ public class SettingsActivity extends Activity {
             }
         });
 
+        //-- Ip address for right eye (GUI configuration)
+        right_eye_address1_increment = (Button) findViewById(R.id.right_eye_address1_increment);
+        right_eye_address1_increment.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        String s = right_eye_address1_input.getText().toString();
+                        int val = right_eye_ip_ad1;
+                        if (!"".equals(s)) {
+                            val = Integer.parseInt(s);
+                        }
+                        if (val >= 0 && val < 255) {
+                            val += 1;
+                        } else if (val < 0) {
+                            val = 0;
+                        } else if (val >= 255) {
+                            val = 255;
+                        }
+
+                        right_eye_ip_ad1 = val;
+                        right_eye_address1_input.setText(String.valueOf(right_eye_ip_ad1), BufferType.NORMAL);
+
+                    }
+                }
+        );
+        right_eye_address2_increment = (Button) findViewById(R.id.right_eye_address2_increment);
+        right_eye_address2_increment.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        String s = right_eye_address2_input.getText().toString();
+                        int val = right_eye_ip_ad2;
+                        if (!"".equals(s)) {
+                            val = Integer.parseInt(s);
+                        }
+                        if (val >= 0 && val < 255) {
+                            val += 1;
+                        } else if (val < 0) {
+                            val = 0;
+                        } else if (val >= 255) {
+                            val = 255;
+                        }
+
+                        right_eye_ip_ad2 = val;
+                        right_eye_address2_input.setText(String.valueOf(right_eye_ip_ad2), BufferType.NORMAL);
+
+                    }
+                }
+        );
+        right_eye_address3_increment = (Button) findViewById(R.id.right_eye_address3_increment);
+        right_eye_address3_increment.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        String s = right_eye_address3_input.getText().toString();
+                        int val = right_eye_ip_ad3;
+                        if (!"".equals(s)) {
+                            val = Integer.parseInt(s);
+                        }
+                        if (val >= 0 && val < 255) {
+                            val += 1;
+                        } else if (val < 0) {
+                            val = 0;
+                        } else if (val >= 255) {
+                            val = 255;
+                        }
+
+                        right_eye_ip_ad3 = val;
+                        right_eye_address3_input.setText(String.valueOf(right_eye_ip_ad3), BufferType.NORMAL);
+
+                    }
+                }
+        );
+        right_eye_address4_increment = (Button) findViewById(R.id.right_eye_address4_increment);
+        right_eye_address4_increment.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        String s = right_eye_address4_input.getText().toString();
+                        int val = right_eye_ip_ad4;
+                        if (!"".equals(s)) {
+                            val = Integer.parseInt(s);
+                        }
+                        if (val >= 0 && val < 255) {
+                            val += 1;
+                        } else if (val < 0) {
+                            val = 0;
+                        } else if (val >= 255) {
+                            val = 255;
+                        }
+
+                        right_eye_ip_ad4 = val;
+                        right_eye_address4_input.setText(String.valueOf(right_eye_ip_ad4), BufferType.NORMAL);
+
+                    }
+                }
+        );
+
+        right_eye_address1_decrement = (Button) findViewById(R.id.right_eye_address1_decrement);
+        right_eye_address1_decrement.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        String s = right_eye_address1_input.getText().toString();
+                        int val = right_eye_ip_ad1;
+                        if (!"".equals(s)) {
+                            val = Integer.parseInt(s);
+                        }
+                        if (val > 0 && val <= 255) {
+                            val -= 1;
+                        } else if (val <= 0) {
+                            val = 0;
+                        } else if (val > 255) {
+                            val = 255;
+                        }
+
+                        right_eye_ip_ad1 = val;
+                        right_eye_address1_input.setText(String.valueOf(right_eye_ip_ad1), BufferType.NORMAL);
+
+                    }
+                }
+        );
+
+        right_eye_address2_decrement = (Button) findViewById(R.id.right_eye_address2_decrement);
+        right_eye_address2_decrement.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        String s = right_eye_address2_input.getText().toString();
+                        int val = right_eye_ip_ad2;
+                        if (!"".equals(s)) {
+                            val = Integer.parseInt(s);
+                        }
+                        if (val > 0 && val <= 255) {
+                            val -= 1;
+                        } else if (val <= 0) {
+                            val = 0;
+                        } else if (val > 255) {
+                            val = 255;
+                        }
+
+                        right_eye_ip_ad2 = val;
+                        right_eye_address2_input.setText(String.valueOf(right_eye_ip_ad2), BufferType.NORMAL);
+
+                    }
+                }
+        );
+        right_eye_address3_decrement = (Button) findViewById(R.id.right_eye_address3_decrement);
+        right_eye_address3_decrement.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        String s = right_eye_address3_input.getText().toString();
+                        int val = right_eye_ip_ad3;
+                        if (!"".equals(s)) {
+                            val = Integer.parseInt(s);
+                        }
+                        if (val > 0 && val <= 255) {
+                            val -= 1;
+                        } else if (val <= 0) {
+                            val = 0;
+                        } else if (val > 255) {
+                            val = 255;
+                        }
+
+                        right_eye_ip_ad3 = val;
+                        right_eye_address3_input.setText(String.valueOf(right_eye_ip_ad3), BufferType.NORMAL);
+
+                    }
+                }
+        );
+        right_eye_address4_decrement = (Button) findViewById(R.id.right_eye_address4_decrement);
+        right_eye_address4_decrement.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        String s = right_eye_address4_input.getText().toString();
+                        int val = right_eye_ip_ad4;
+                        if (!"".equals(s)) {
+                            val = Integer.parseInt(s);
+                        }
+                        if (val > 0 && val <= 255) {
+                            val -= 1;
+                        } else if (val <= 0) {
+                            val = 0;
+                        } else if (val > 255) {
+                            val = 255;
+                        }
+
+                        right_eye_ip_ad4 = val;
+                        right_eye_address4_input.setText(String.valueOf(right_eye_ip_ad4), BufferType.NORMAL);
+
+                    }
+                }
+        );
+
+        right_eye_port_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.right_eye_port_80) {
+                    right_eye_port_input.setText(getString(R.string.port_80));
+                } else if (checkedId == R.id.right_eye_port_8080) {
+                    right_eye_port_input.setText(getString(R.string.port_8080));
+                }
+            }
+        });
+
+        right_eye_command_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.right_eye_command_streaming) {
+                    right_eye_command_input.setText(getString(R.string.command_streaming));
+                } else if (checkedId == R.id.right_eye_command_videofeed) {
+                    right_eye_command_input.setText(getString(R.string.command_videofeed));
+                }
+            }
+        });
+
+        //-- Settings done button configuration
         settings_done = (Button) findViewById(R.id.settings_done);
         settings_done.setOnClickListener(
                 new View.OnClickListener() {
@@ -411,6 +638,7 @@ public class SettingsActivity extends Activity {
 
                         String s;
 
+                        //-- Common
                         s = width_input.getText().toString();
                         if (!"".equals(s)) {
                             width = Integer.parseInt(s);
@@ -419,6 +647,8 @@ public class SettingsActivity extends Activity {
                         if (!"".equals(s)) {
                             height = Integer.parseInt(s);
                         }
+
+                        //-- Left eye
                         s = address1_input.getText().toString();
                         if (!"".equals(s)) {
                             ip_ad1 = Integer.parseInt(s);
@@ -444,15 +674,50 @@ public class SettingsActivity extends Activity {
                         s = command_input.getText().toString();
                         ip_command = s;
 
+                        //-- Right eye
+                        s = right_eye_address1_input.getText().toString();
+                        if (!"".equals(s)) {
+                            right_eye_ip_ad1 = Integer.parseInt(s);
+                        }
+                        s = right_eye_address2_input.getText().toString();
+                        if (!"".equals(s)) {
+                            right_eye_ip_ad2 = Integer.parseInt(s);
+                        }
+                        s = right_eye_address3_input.getText().toString();
+                        if (!"".equals(s)) {
+                            right_eye_ip_ad3 = Integer.parseInt(s);
+                        }
+                        s = right_eye_address4_input.getText().toString();
+                        if (!"".equals(s)) {
+                            right_eye_ip_ad4 = Integer.parseInt(s);
+                        }
+
+                        s = right_eye_port_input.getText().toString();
+                        if (!"".equals(s)) {
+                            right_eye_ip_port = Integer.parseInt(s);
+                        }
+
+                        s = right_eye_command_input.getText().toString();
+                        right_eye_ip_command = s;
+
                         Intent intent = new Intent();
+                        //-- Common
                         intent.putExtra("width", width);
                         intent.putExtra("height", height);
+                        //-- Left eye
                         intent.putExtra("ip_ad1", ip_ad1);
                         intent.putExtra("ip_ad2", ip_ad2);
                         intent.putExtra("ip_ad3", ip_ad3);
                         intent.putExtra("ip_ad4", ip_ad4);
                         intent.putExtra("ip_port", ip_port);
                         intent.putExtra("ip_command", ip_command);
+                        //-- Right eye
+                        intent.putExtra("right_eye_ip_ad1", right_eye_ip_ad1);
+                        intent.putExtra("right_eye_ip_ad2", right_eye_ip_ad2);
+                        intent.putExtra("right_eye_ip_ad3", right_eye_ip_ad3);
+                        intent.putExtra("right_eye_ip_ad4", right_eye_ip_ad4);
+                        intent.putExtra("right_eye_ip_port", right_eye_ip_port);
+                        intent.putExtra("right_eye_ip_command", right_eye_ip_command);
 
                         setResult(RESULT_OK, intent);
                         finish();
