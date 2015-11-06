@@ -30,6 +30,7 @@
 
     <!-- This FrameLayout insets its children based on system windows using
      android:fitsSystemWindows. -->
+    <!-- No other controls here
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
@@ -39,9 +40,7 @@
             android:background="@color/black_overlay" android:orientation="horizontal"
             tools:ignore="UselessParent">
 
-            <!-- Put controls here -->
-
         </LinearLayout>
 
-    </FrameLayout>
+    </FrameLayout> -->
 </FrameLayout>

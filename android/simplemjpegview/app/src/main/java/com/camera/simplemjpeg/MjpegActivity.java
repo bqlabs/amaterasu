@@ -150,7 +150,8 @@ public class MjpegActivity extends AppCompatActivity {
 
         //-- Setup fullscreen things
         mVisible = true;
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
+        mControlsView = null;
+        //mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -368,7 +369,9 @@ public class MjpegActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-        mControlsView.setVisibility(View.GONE);
+        if (mControlsView != null) {
+            mControlsView.setVisibility(View.GONE);
+        }
         mVisible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay
@@ -414,7 +417,9 @@ public class MjpegActivity extends AppCompatActivity {
             if (actionBar != null) {
                 actionBar.show();
             }
-            mControlsView.setVisibility(View.VISIBLE);
+            if (mControlsView != null) {
+                mControlsView.setVisibility(View.VISIBLE);
+            }
         }
     };
 
