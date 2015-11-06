@@ -60,6 +60,7 @@ public class MjpegActivity extends AppCompatActivity {
     private int left_eye_ip_ad4 = 1;
     private int left_eye_ip_port = 80;
     private String left_eye_ip_command = "?action=stream";
+    private Boolean left_eye_invert_image = false;
 
     //-- Settings for the right eye
     private int right_eye_ip_ad1 = 192;
@@ -68,6 +69,7 @@ public class MjpegActivity extends AppCompatActivity {
     private int right_eye_ip_ad4 = 1;
     private int right_eye_ip_port = 80;
     private String right_eye_ip_command = "?action=stream";
+    private Boolean right_eye_invert_image = false;
 
     private boolean suspending = false;
 
@@ -88,6 +90,7 @@ public class MjpegActivity extends AppCompatActivity {
         left_eye_ip_ad4 = preferences.getInt("left_eye_ip_ad4", left_eye_ip_ad4);
         left_eye_ip_port = preferences.getInt("left_eye_ip_port", left_eye_ip_port);
         left_eye_ip_command = preferences.getString("left_eye_ip_command", left_eye_ip_command);
+        left_eye_invert_image = preferences.getBoolean("left_eye_invert_image", left_eye_invert_image);
 
         StringBuilder sb = new StringBuilder();
         String s_http = "http://";
@@ -115,6 +118,7 @@ public class MjpegActivity extends AppCompatActivity {
         right_eye_ip_ad4 = preferences.getInt("right_eye_ip_ad4", right_eye_ip_ad4);
         right_eye_ip_port = preferences.getInt("right_eye_ip_port", right_eye_ip_port);
         right_eye_ip_command = preferences.getString("right_eye_ip_command", right_eye_ip_command);
+        right_eye_invert_image = preferences.getBoolean("right_eye_invert_image", right_eye_invert_image);
 
         StringBuilder r_sb = new StringBuilder();
         r_sb.append(s_http);
@@ -163,8 +167,8 @@ public class MjpegActivity extends AppCompatActivity {
         });
 
         //-- Call streamer functions
-        new DoRead().execute(left_eye_URL, "left");
-        new DoRead().execute(right_eye_URL, "right");
+        new DoRead().execute(left_eye_URL, "left", left_eye_invert_image.toString());
+        new DoRead().execute(right_eye_URL, "right", right_eye_invert_image.toString());
     }
 
     public void onResume() {
@@ -172,8 +176,8 @@ public class MjpegActivity extends AppCompatActivity {
         super.onResume();
         if (left_eye_mv != null && right_eye_mv != null) {
             if (suspending) {
-                new DoRead().execute(left_eye_URL, "left");
-                new DoRead().execute(right_eye_URL, "right");
+                new DoRead().execute(left_eye_URL, "left", left_eye_invert_image.toString());
+                new DoRead().execute(right_eye_URL, "right", right_eye_invert_image.toString());
                 suspending = false;
             }
         }
@@ -253,6 +257,7 @@ public class MjpegActivity extends AppCompatActivity {
                 settings_intent.putExtra("left_eye_ip_ad4", left_eye_ip_ad4);
                 settings_intent.putExtra("left_eye_ip_port", left_eye_ip_port);
                 settings_intent.putExtra("left_eye_ip_command", left_eye_ip_command);
+                settings_intent.putExtra("left_eye_invert_image", left_eye_invert_image);
                 //-- Right eye
                 settings_intent.putExtra("right_eye_ip_ad1", right_eye_ip_ad1);
                 settings_intent.putExtra("right_eye_ip_ad2", right_eye_ip_ad2);
@@ -260,6 +265,7 @@ public class MjpegActivity extends AppCompatActivity {
                 settings_intent.putExtra("right_eye_ip_ad4", right_eye_ip_ad4);
                 settings_intent.putExtra("right_eye_ip_port", right_eye_ip_port);
                 settings_intent.putExtra("right_eye_ip_command", right_eye_ip_command);
+                settings_intent.putExtra("right_eye_invert_image", right_eye_invert_image);
                 Log.i(TAG, "Request configuration parameters");
                 startActivityForResult(settings_intent, REQUEST_SETTINGS);
                 return true;
@@ -281,6 +287,7 @@ public class MjpegActivity extends AppCompatActivity {
                     left_eye_ip_ad4 = data.getIntExtra("left_eye_ip_ad4", left_eye_ip_ad4);
                     left_eye_ip_port = data.getIntExtra("left_eye_ip_port", left_eye_ip_port);
                     left_eye_ip_command = data.getStringExtra("left_eye_ip_command");
+                    left_eye_invert_image = data.getBooleanExtra("left_eye_invert_image", left_eye_invert_image);
                     //-- Right eye
                     right_eye_ip_ad1 = data.getIntExtra("right_eye_ip_ad1", right_eye_ip_ad1);
                     right_eye_ip_ad2 = data.getIntExtra("right_eye_ip_ad2", right_eye_ip_ad2);
@@ -288,7 +295,7 @@ public class MjpegActivity extends AppCompatActivity {
                     right_eye_ip_ad4 = data.getIntExtra("right_eye_ip_ad4", right_eye_ip_ad4);
                     right_eye_ip_port = data.getIntExtra("right_eye_ip_port", right_eye_ip_port);
                     right_eye_ip_command = data.getStringExtra("right_eye_ip_command");
-
+                    right_eye_invert_image = data.getBooleanExtra("right_eye_invert_image", right_eye_invert_image);
                     if (left_eye_mv != null) {
                         left_eye_mv.setResolution(width, height);
                     }
@@ -310,6 +317,7 @@ public class MjpegActivity extends AppCompatActivity {
                     editor.putInt("left_eye_ip_ad4", left_eye_ip_ad4);
                     editor.putInt("left_eye_ip_port", left_eye_ip_port);
                     editor.putString("left_eye_ip_command", left_eye_ip_command);
+                    editor.putBoolean("left_eye_invert_image", left_eye_invert_image);
                     //-- Right eye
                     editor.putInt("right_eye_ip_ad1", right_eye_ip_ad1);
                     editor.putInt("right_eye_ip_ad2", right_eye_ip_ad2);
@@ -317,6 +325,7 @@ public class MjpegActivity extends AppCompatActivity {
                     editor.putInt("right_eye_ip_ad4", right_eye_ip_ad4);
                     editor.putInt("right_eye_ip_port", right_eye_ip_port);
                     editor.putString("right_eye_ip_command", right_eye_ip_command);
+                    editor.putBoolean("right_eye_invert_image", right_eye_invert_image);
 
                     editor.commit();
 
@@ -443,11 +452,13 @@ public class MjpegActivity extends AppCompatActivity {
     public class DoRead extends AsyncTask<String, Void, MjpegInputStream> {
 
         private String eye = null;
+        private Boolean invert = false;
 
         protected MjpegInputStream doInBackground(String... params) {
             //-- Get params
             String url = params[0];
             eye = params[1];
+            invert = Boolean.parseBoolean(params[2]);
 
             //TODO: if camera has authentication deal with it and don't just not work
             HttpResponse res = null;
@@ -493,6 +504,7 @@ public class MjpegActivity extends AppCompatActivity {
                 }
                 left_eye_mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
                 left_eye_mv.showFps(false);
+                left_eye_mv.setInverted(left_eye_invert_image);
             }
             else if (eye.equals("right")) {
                 Log.i(TAG, "Right eye frame");
@@ -505,6 +517,7 @@ public class MjpegActivity extends AppCompatActivity {
                 }
                 right_eye_mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
                 right_eye_mv.showFps(false);
+                right_eye_mv.setInverted(right_eye_invert_image);
             }
         }
     }

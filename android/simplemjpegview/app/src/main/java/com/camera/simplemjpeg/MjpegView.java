@@ -4,12 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -49,6 +51,9 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
 
     private Bitmap bmp = null;
 
+    private Boolean inverted = false;
+    private Matrix matrix;
+
     // image size
 
     public int IMG_WIDTH = 640;
@@ -63,6 +68,8 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
 
         public MjpegViewThread(SurfaceHolder surfaceHolder, Context context) {
             mSurfaceHolder = surfaceHolder;
+            matrix = new Matrix();
+            matrix.postRotate(180);
         }
 
         private Rect destRect(int bmw, int bmh) {
@@ -125,6 +132,7 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
 
                 Rect destRect = null;
                 Canvas c = null;
+                Bitmap Rbmp = null;
 
                 if (surfaceDone) {
                     try {
@@ -132,6 +140,12 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
                             bmp = Bitmap.createBitmap(IMG_WIDTH, IMG_HEIGHT, Bitmap.Config.ARGB_8888);
                         }
                         int ret = mIn.readMjpegFrame(bmp);
+                        if (inverted) {
+                            Rbmp = InvertBitmap(bmp);
+                            Log.i(TAG, "RotateBitmap: 180º");
+                        } else {
+                            Rbmp = bmp;
+                        }
 
                         if (ret == -1) {
                             ((MjpegActivity) saved_context).setImageError();
@@ -143,7 +157,7 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
                         c = mSurfaceHolder.lockCanvas();
                         synchronized (mSurfaceHolder) {
 
-                            c.drawBitmap(bmp, null, destRect, p);
+                            c.drawBitmap(Rbmp, null, destRect, p);
 
                             if (showFps) {
                                 p.setXfermode(mode);
@@ -320,5 +334,13 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
 
     public boolean isStreaming() {
         return mRun;
+    }
+
+    public void setInverted(boolean inverted ) { this.inverted = inverted; }
+
+    /* From: http://stackoverflow.com/questions/4166917/android-how-to-rotate-a-bitmap-on-a-center-point */
+    private Bitmap InvertBitmap(Bitmap source)
+    {
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, false);
     }
 }
