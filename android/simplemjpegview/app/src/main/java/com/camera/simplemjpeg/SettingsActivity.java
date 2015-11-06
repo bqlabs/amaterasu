@@ -44,6 +44,7 @@ public class SettingsActivity extends Activity {
 
     RadioGroup left_eye_port_group;
     RadioGroup left_eye_command_group;
+    RadioGroup left_eye_invert_group;
 
     //-- Right eye UI
     EditText right_eye_address1_input;
@@ -65,6 +66,7 @@ public class SettingsActivity extends Activity {
 
     RadioGroup right_eye_port_group;
     RadioGroup right_eye_command_group;
+    RadioGroup right_eye_invert_group;
 
     int width = 640;
     int height = 480;
@@ -75,6 +77,7 @@ public class SettingsActivity extends Activity {
     int left_eye_ip_ad4 = 1;
     int left_eye_ip_port = 80;
     String left_eye_ip_command = "?action=stream";
+    Boolean left_eye_invert_image = false;
 
     int right_eye_ip_ad1 = 192;
     int right_eye_ip_ad2 = 168;
@@ -82,6 +85,7 @@ public class SettingsActivity extends Activity {
     int right_eye_ip_ad4 = 1;
     int right_eye_ip_port = 80;
     String right_eye_ip_command = "?action=stream";
+    Boolean right_eye_invert_image = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,6 +118,7 @@ public class SettingsActivity extends Activity {
 
         left_eye_port_group = (RadioGroup) findViewById(R.id.port_radiogroup);
         left_eye_command_group = (RadioGroup) findViewById(R.id.command_radiogroup);
+        left_eye_invert_group = (RadioGroup) findViewById(R.id.left_eye_invert_radiogroup);
 
         //-- Right eye stream elements
         right_eye_address1_input = (EditText) findViewById(R.id.right_eye_address1_input);
@@ -125,6 +130,7 @@ public class SettingsActivity extends Activity {
 
         right_eye_port_group = (RadioGroup) findViewById(R.id.right_eye_port_radiogroup);
         right_eye_command_group = (RadioGroup) findViewById(R.id.right_eye_command_radiogroup);
+        right_eye_invert_group = (RadioGroup) findViewById(R.id.right_eye_invert_radiogroup);
 
         //-- Set up tabs
         final TabHost tabHost = (TabHost)findViewById(R.id.tab_host);
@@ -161,6 +167,7 @@ public class SettingsActivity extends Activity {
             left_eye_ip_ad4 = extras.getInt("left_eye_ip_ad4", left_eye_ip_ad4);
             left_eye_ip_port = extras.getInt("left_eye_ip_port", left_eye_ip_port);
             left_eye_ip_command = extras.getString("left_eye_ip_command");
+            left_eye_invert_image = extras.getBoolean("left_eye_invert_image");
 
             left_eye_address1_input.setText(String.valueOf(left_eye_ip_ad1));
             left_eye_address2_input.setText(String.valueOf(left_eye_ip_ad2));
@@ -168,6 +175,11 @@ public class SettingsActivity extends Activity {
             left_eye_address4_input.setText(String.valueOf(left_eye_ip_ad4));
             left_eye_port_input.setText(String.valueOf(left_eye_ip_port));
             left_eye_command_input.setText(left_eye_ip_command);
+            if (left_eye_invert_image) {
+                left_eye_invert_group.check(R.id.left_eye_invert_image);
+            } else {
+                left_eye_invert_group.check(R.id.left_eye_no_invert_image);
+            }
 
             //-- Configure right eye
             right_eye_ip_ad1 = extras.getInt("right_eye_ip_ad1", right_eye_ip_ad1);
@@ -176,6 +188,7 @@ public class SettingsActivity extends Activity {
             right_eye_ip_ad4 = extras.getInt("right_eye_ip_ad4", right_eye_ip_ad4);
             right_eye_ip_port = extras.getInt("right_eye_ip_port", right_eye_ip_port);
             right_eye_ip_command = extras.getString("right_eye_ip_command");
+            right_eye_invert_image = extras.getBoolean("right_eye_invert_image");
 
             right_eye_address1_input.setText(String.valueOf(right_eye_ip_ad1));
             right_eye_address2_input.setText(String.valueOf(right_eye_ip_ad2));
@@ -183,6 +196,11 @@ public class SettingsActivity extends Activity {
             right_eye_address4_input.setText(String.valueOf(right_eye_ip_ad4));
             right_eye_port_input.setText(String.valueOf(right_eye_ip_port));
             right_eye_command_input.setText(right_eye_ip_command);
+            if (right_eye_invert_image) {
+                right_eye_invert_group.check(R.id.right_eye_invert_image);
+            } else {
+                right_eye_invert_group.check(R.id.right_eye_no_invert_image);
+            }
         }
 
         resolution_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -424,6 +442,16 @@ public class SettingsActivity extends Activity {
             }
         });
 
+        left_eye_invert_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.left_eye_invert_image) {
+                    left_eye_invert_image = true;
+                } else if (checkedId == R.id.left_eye_no_invert_image) {
+                    left_eye_invert_image = false;
+                }
+            }
+        });
+
         //-- Ip address for right eye (GUI configuration)
         right_eye_address1_increment = (Button) findViewById(R.id.right_eye_address1_increment);
         right_eye_address1_increment.setOnClickListener(
@@ -632,6 +660,16 @@ public class SettingsActivity extends Activity {
             }
         });
 
+        right_eye_invert_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.right_eye_invert_image) {
+                    right_eye_invert_image = true;
+                } else if (checkedId == R.id.right_eye_no_invert_image) {
+                    right_eye_invert_image = false;
+                }
+            }
+        });
+
         //-- Settings done button configuration
         settings_done = (Button) findViewById(R.id.settings_done);
         settings_done.setOnClickListener(
@@ -713,6 +751,7 @@ public class SettingsActivity extends Activity {
                         intent.putExtra("left_eye_ip_ad4", left_eye_ip_ad4);
                         intent.putExtra("left_eye_ip_port", left_eye_ip_port);
                         intent.putExtra("left_eye_ip_command", left_eye_ip_command);
+                        intent.putExtra("left_eye_invert_image", left_eye_invert_image);
                         //-- Right eye
                         intent.putExtra("right_eye_ip_ad1", right_eye_ip_ad1);
                         intent.putExtra("right_eye_ip_ad2", right_eye_ip_ad2);
@@ -720,6 +759,7 @@ public class SettingsActivity extends Activity {
                         intent.putExtra("right_eye_ip_ad4", right_eye_ip_ad4);
                         intent.putExtra("right_eye_ip_port", right_eye_ip_port);
                         intent.putExtra("right_eye_ip_command", right_eye_ip_command);
+                        intent.putExtra("right_eye_invert_image", right_eye_invert_image);
 
                         setResult(RESULT_OK, intent);
                         finish();

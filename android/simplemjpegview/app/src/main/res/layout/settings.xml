@@ -284,6 +284,26 @@
                                 android:text="@string/command_videofeed_with_explanation" />
                         </RadioGroup>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/invert_settings_label"/>
+
+                        <RadioGroup
+                            android:id="@+id/left_eye_invert_radiogroup"
+                            android:orientation="vertical"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+                            <RadioButton android:id="@+id/left_eye_invert_image"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/invert_invert_label" />
+                            <RadioButton android:id="@+id/left_eye_no_invert_image"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/no_invert_invert_label" />
+                        </RadioGroup>
 
                     </LinearLayout>
 
@@ -501,6 +521,27 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/command_videofeed_with_explanation" />
+                        </RadioGroup>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/invert_settings_label"/>
+
+                        <RadioGroup
+                            android:id="@+id/right_eye_invert_radiogroup"
+                            android:orientation="vertical"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+                            <RadioButton android:id="@+id/right_eye_invert_image"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/invert_invert_label" />
+                            <RadioButton android:id="@+id/right_eye_no_invert_image"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/no_invert_invert_label" />
                         </RadioGroup>
 
 

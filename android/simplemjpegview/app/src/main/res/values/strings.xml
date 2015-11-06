@@ -31,6 +31,9 @@
 	<string name="command_videofeed">videofeed</string>
 	<string name="command_streaming_with_explanation">\?action=stream (for Ai-ball)</string>
 	<string name="command_videofeed_with_explanation">videofeed (for IP Webcam)</string>
+	<string name="invert_settings_label">Invert image</string>
+	<string name="invert_invert_label">Invert</string>
+	<string name="no_invert_invert_label">No invert</string>
 	
 	<string name="settings_done">Done</string>
 	
