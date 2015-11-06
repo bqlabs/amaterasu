@@ -44,7 +44,8 @@ public class MjpegActivity extends AppCompatActivity {
     //-- Viewers
     private MjpegView left_eye_mv = null;
     private MjpegView right_eye_mv = null;
-    String URL;
+    String left_eye_URL;
+    String right_eye_URL;
 
     //-- Stream settings (network and resolution)
     private static final int REQUEST_SETTINGS = 0;
@@ -52,12 +53,21 @@ public class MjpegActivity extends AppCompatActivity {
     private int width = 640;
     private int height = 480;
 
+    //-- Settings for the left eye
     private int ip_ad1 = 192;
     private int ip_ad2 = 168;
     private int ip_ad3 = 2;
     private int ip_ad4 = 1;
     private int ip_port = 80;
     private String ip_command = "?action=stream";
+
+    //-- Settings for the right eye
+    private int right_eye_ip_ad1 = 192;
+    private int right_eye_ip_ad2 = 168;
+    private int right_eye_ip_ad3 = 2;
+    private int right_eye_ip_ad4 = 1;
+    private int right_eye_ip_port = 80;
+    private String right_eye_ip_command = "?action=stream";
 
     private boolean suspending = false;
 
@@ -68,8 +78,10 @@ public class MjpegActivity extends AppCompatActivity {
 
         //-- Get Streamer properties
         SharedPreferences preferences = getSharedPreferences("SAVED_VALUES", MODE_PRIVATE);
+        //-- Common
         width = preferences.getInt("width", width);
         height = preferences.getInt("height", height);
+        //-- Left eye
         ip_ad1 = preferences.getInt("ip_ad1", ip_ad1);
         ip_ad2 = preferences.getInt("ip_ad2", ip_ad2);
         ip_ad3 = preferences.getInt("ip_ad3", ip_ad3);
@@ -94,7 +106,30 @@ public class MjpegActivity extends AppCompatActivity {
         sb.append(ip_port);
         sb.append(s_slash);
         sb.append(ip_command);
-        URL = new String(sb);
+        left_eye_URL = new String(sb);
+
+        //-- Right eye
+        right_eye_ip_ad1 = preferences.getInt("right_eye_ip_ad1", right_eye_ip_ad1);
+        right_eye_ip_ad2 = preferences.getInt("right_eye_ip_ad2", right_eye_ip_ad2);
+        right_eye_ip_ad3 = preferences.getInt("right_eye_ip_ad3", right_eye_ip_ad3);
+        right_eye_ip_ad4 = preferences.getInt("right_eye_ip_ad4", right_eye_ip_ad4);
+        right_eye_ip_port = preferences.getInt("right_eye_ip_port", right_eye_ip_port);
+        right_eye_ip_command = preferences.getString("right_eye_ip_command", right_eye_ip_command);
+
+        StringBuilder r_sb = new StringBuilder();
+        r_sb.append(s_http);
+        r_sb.append(right_eye_ip_ad1);
+        r_sb.append(s_dot);
+        r_sb.append(right_eye_ip_ad2);
+        r_sb.append(s_dot);
+        r_sb.append(right_eye_ip_ad3);
+        r_sb.append(s_dot);
+        r_sb.append(right_eye_ip_ad4);
+        r_sb.append(s_colon);
+        r_sb.append(right_eye_ip_port);
+        r_sb.append(s_slash);
+        r_sb.append(right_eye_ip_command);
+        right_eye_URL = new String(r_sb);
 
         //-- Set Activity layout
         setContentView(R.layout.main);
@@ -127,8 +162,8 @@ public class MjpegActivity extends AppCompatActivity {
         });
 
         //-- Call streamer functions
-        new DoRead().execute(URL, "left");
-        new DoRead().execute(URL, "right");
+        new DoRead().execute(left_eye_URL, "left");
+        new DoRead().execute(right_eye_URL, "right");
     }
 
     public void onResume() {
@@ -136,8 +171,8 @@ public class MjpegActivity extends AppCompatActivity {
         super.onResume();
         if (left_eye_mv != null && right_eye_mv != null) {
             if (suspending) {
-                new DoRead().execute(URL, "left");
-                new DoRead().execute(URL, "right");
+                new DoRead().execute(left_eye_URL, "left");
+                new DoRead().execute(right_eye_URL, "right");
                 suspending = false;
             }
         }
@@ -207,14 +242,24 @@ public class MjpegActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.settings:
                 Intent settings_intent = new Intent(MjpegActivity.this, SettingsActivity.class);
+                //-- Common
                 settings_intent.putExtra("width", width);
                 settings_intent.putExtra("height", height);
+                //-- Left eye
                 settings_intent.putExtra("ip_ad1", ip_ad1);
                 settings_intent.putExtra("ip_ad2", ip_ad2);
                 settings_intent.putExtra("ip_ad3", ip_ad3);
                 settings_intent.putExtra("ip_ad4", ip_ad4);
                 settings_intent.putExtra("ip_port", ip_port);
                 settings_intent.putExtra("ip_command", ip_command);
+                //-- Right eye
+                settings_intent.putExtra("right_eye_ip_ad1", right_eye_ip_ad1);
+                settings_intent.putExtra("right_eye_ip_ad2", right_eye_ip_ad2);
+                settings_intent.putExtra("right_eye_ip_ad3", right_eye_ip_ad3);
+                settings_intent.putExtra("right_eye_ip_ad4", right_eye_ip_ad4);
+                settings_intent.putExtra("right_eye_ip_port", right_eye_ip_port);
+                settings_intent.putExtra("right_eye_ip_command", right_eye_ip_command);
+                Log.i(TAG, "Request configuration parameters");
                 startActivityForResult(settings_intent, REQUEST_SETTINGS);
                 return true;
         }
@@ -225,14 +270,23 @@ public class MjpegActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_SETTINGS:
                 if (resultCode == Activity.RESULT_OK) {
+                    //-- Common
                     width = data.getIntExtra("width", width);
                     height = data.getIntExtra("height", height);
+                    //-- Left eye
                     ip_ad1 = data.getIntExtra("ip_ad1", ip_ad1);
                     ip_ad2 = data.getIntExtra("ip_ad2", ip_ad2);
                     ip_ad3 = data.getIntExtra("ip_ad3", ip_ad3);
                     ip_ad4 = data.getIntExtra("ip_ad4", ip_ad4);
                     ip_port = data.getIntExtra("ip_port", ip_port);
                     ip_command = data.getStringExtra("ip_command");
+                    //-- Right eye
+                    right_eye_ip_ad1 = data.getIntExtra("right_eye_ip_ad1", right_eye_ip_ad1);
+                    right_eye_ip_ad2 = data.getIntExtra("right_eye_ip_ad2", right_eye_ip_ad2);
+                    right_eye_ip_ad3 = data.getIntExtra("right_eye_ip_ad3", right_eye_ip_ad3);
+                    right_eye_ip_ad4 = data.getIntExtra("right_eye_ip_ad4", right_eye_ip_ad4);
+                    right_eye_ip_port = data.getIntExtra("right_eye_ip_port", right_eye_ip_port);
+                    right_eye_ip_command = data.getStringExtra("right_eye_ip_command");
 
                     if (left_eye_mv != null) {
                         left_eye_mv.setResolution(width, height);
@@ -241,18 +295,31 @@ public class MjpegActivity extends AppCompatActivity {
                         right_eye_mv.setResolution(width, height);
                     }
 
+                    Log.i(TAG, "Received configuration parameters");
+
                     SharedPreferences preferences = getSharedPreferences("SAVED_VALUES", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
+                    //-- Common
                     editor.putInt("width", width);
                     editor.putInt("height", height);
+                    //-- Left eye
                     editor.putInt("ip_ad1", ip_ad1);
                     editor.putInt("ip_ad2", ip_ad2);
                     editor.putInt("ip_ad3", ip_ad3);
                     editor.putInt("ip_ad4", ip_ad4);
                     editor.putInt("ip_port", ip_port);
                     editor.putString("ip_command", ip_command);
+                    //-- Right eye
+                    editor.putInt("right_eye_ip_ad1", right_eye_ip_ad1);
+                    editor.putInt("right_eye_ip_ad2", right_eye_ip_ad2);
+                    editor.putInt("right_eye_ip_ad3", right_eye_ip_ad3);
+                    editor.putInt("right_eye_ip_ad4", right_eye_ip_ad4);
+                    editor.putInt("right_eye_ip_port", right_eye_ip_port);
+                    editor.putString("right_eye_ip_command", right_eye_ip_command);
 
                     editor.commit();
+
+                    Log.i(TAG, "Saved configuration parameters");
 
                     new RestartApp().execute();
                 }
@@ -372,9 +439,10 @@ public class MjpegActivity extends AppCompatActivity {
 
         private String eye = null;
 
-        protected MjpegInputStream doInBackground(String... url) {
-            // Set eye
-            eye = url[1];
+        protected MjpegInputStream doInBackground(String... params) {
+            //-- Get params
+            String url = params[0];
+            eye = params[1];
 
             //TODO: if camera has authentication deal with it and don't just not work
             HttpResponse res = null;
@@ -384,7 +452,7 @@ public class MjpegActivity extends AppCompatActivity {
             HttpConnectionParams.setSoTimeout(httpParams, 5 * 1000);
             if (DEBUG) Log.d(TAG, "1. Sending http request");
             try {
-                res = httpclient.execute(new HttpGet(URI.create(url[0])));
+                res = httpclient.execute(new HttpGet(URI.create(url)));
                 if (DEBUG)
                     Log.d(TAG, "2. Request finished, status = " + res.getStatusLine().getStatusCode());
                 if (res.getStatusLine().getStatusCode() == 401) {
