@@ -54,12 +54,12 @@ public class MjpegActivity extends AppCompatActivity {
     private int height = 480;
 
     //-- Settings for the left eye
-    private int ip_ad1 = 192;
-    private int ip_ad2 = 168;
-    private int ip_ad3 = 2;
-    private int ip_ad4 = 1;
-    private int ip_port = 80;
-    private String ip_command = "?action=stream";
+    private int left_eye_ip_ad1 = 192;
+    private int left_eye_ip_ad2 = 168;
+    private int left_eye_ip_ad3 = 2;
+    private int left_eye_ip_ad4 = 1;
+    private int left_eye_ip_port = 80;
+    private String left_eye_ip_command = "?action=stream";
 
     //-- Settings for the right eye
     private int right_eye_ip_ad1 = 192;
@@ -82,12 +82,12 @@ public class MjpegActivity extends AppCompatActivity {
         width = preferences.getInt("width", width);
         height = preferences.getInt("height", height);
         //-- Left eye
-        ip_ad1 = preferences.getInt("ip_ad1", ip_ad1);
-        ip_ad2 = preferences.getInt("ip_ad2", ip_ad2);
-        ip_ad3 = preferences.getInt("ip_ad3", ip_ad3);
-        ip_ad4 = preferences.getInt("ip_ad4", ip_ad4);
-        ip_port = preferences.getInt("ip_port", ip_port);
-        ip_command = preferences.getString("ip_command", ip_command);
+        left_eye_ip_ad1 = preferences.getInt("left_eye_ip_ad1", left_eye_ip_ad1);
+        left_eye_ip_ad2 = preferences.getInt("left_eye_ip_ad2", left_eye_ip_ad2);
+        left_eye_ip_ad3 = preferences.getInt("left_eye_ip_ad3", left_eye_ip_ad3);
+        left_eye_ip_ad4 = preferences.getInt("left_eye_ip_ad4", left_eye_ip_ad4);
+        left_eye_ip_port = preferences.getInt("left_eye_ip_port", left_eye_ip_port);
+        left_eye_ip_command = preferences.getString("left_eye_ip_command", left_eye_ip_command);
 
         StringBuilder sb = new StringBuilder();
         String s_http = "http://";
@@ -95,17 +95,17 @@ public class MjpegActivity extends AppCompatActivity {
         String s_colon = ":";
         String s_slash = "/";
         sb.append(s_http);
-        sb.append(ip_ad1);
+        sb.append(left_eye_ip_ad1);
         sb.append(s_dot);
-        sb.append(ip_ad2);
+        sb.append(left_eye_ip_ad2);
         sb.append(s_dot);
-        sb.append(ip_ad3);
+        sb.append(left_eye_ip_ad3);
         sb.append(s_dot);
-        sb.append(ip_ad4);
+        sb.append(left_eye_ip_ad4);
         sb.append(s_colon);
-        sb.append(ip_port);
+        sb.append(left_eye_ip_port);
         sb.append(s_slash);
-        sb.append(ip_command);
+        sb.append(left_eye_ip_command);
         left_eye_URL = new String(sb);
 
         //-- Right eye
@@ -246,12 +246,12 @@ public class MjpegActivity extends AppCompatActivity {
                 settings_intent.putExtra("width", width);
                 settings_intent.putExtra("height", height);
                 //-- Left eye
-                settings_intent.putExtra("ip_ad1", ip_ad1);
-                settings_intent.putExtra("ip_ad2", ip_ad2);
-                settings_intent.putExtra("ip_ad3", ip_ad3);
-                settings_intent.putExtra("ip_ad4", ip_ad4);
-                settings_intent.putExtra("ip_port", ip_port);
-                settings_intent.putExtra("ip_command", ip_command);
+                settings_intent.putExtra("left_eye_ip_ad1", left_eye_ip_ad1);
+                settings_intent.putExtra("left_eye_ip_ad2", left_eye_ip_ad2);
+                settings_intent.putExtra("left_eye_ip_ad3", left_eye_ip_ad3);
+                settings_intent.putExtra("left_eye_ip_ad4", left_eye_ip_ad4);
+                settings_intent.putExtra("left_eye_ip_port", left_eye_ip_port);
+                settings_intent.putExtra("left_eye_ip_command", left_eye_ip_command);
                 //-- Right eye
                 settings_intent.putExtra("right_eye_ip_ad1", right_eye_ip_ad1);
                 settings_intent.putExtra("right_eye_ip_ad2", right_eye_ip_ad2);
@@ -274,12 +274,12 @@ public class MjpegActivity extends AppCompatActivity {
                     width = data.getIntExtra("width", width);
                     height = data.getIntExtra("height", height);
                     //-- Left eye
-                    ip_ad1 = data.getIntExtra("ip_ad1", ip_ad1);
-                    ip_ad2 = data.getIntExtra("ip_ad2", ip_ad2);
-                    ip_ad3 = data.getIntExtra("ip_ad3", ip_ad3);
-                    ip_ad4 = data.getIntExtra("ip_ad4", ip_ad4);
-                    ip_port = data.getIntExtra("ip_port", ip_port);
-                    ip_command = data.getStringExtra("ip_command");
+                    left_eye_ip_ad1 = data.getIntExtra("left_eye_ip_ad1", left_eye_ip_ad1);
+                    left_eye_ip_ad2 = data.getIntExtra("left_eye_ip_ad2", left_eye_ip_ad2);
+                    left_eye_ip_ad3 = data.getIntExtra("left_eye_ip_ad3", left_eye_ip_ad3);
+                    left_eye_ip_ad4 = data.getIntExtra("left_eye_ip_ad4", left_eye_ip_ad4);
+                    left_eye_ip_port = data.getIntExtra("left_eye_ip_port", left_eye_ip_port);
+                    left_eye_ip_command = data.getStringExtra("left_eye_ip_command");
                     //-- Right eye
                     right_eye_ip_ad1 = data.getIntExtra("right_eye_ip_ad1", right_eye_ip_ad1);
                     right_eye_ip_ad2 = data.getIntExtra("right_eye_ip_ad2", right_eye_ip_ad2);
@@ -303,12 +303,12 @@ public class MjpegActivity extends AppCompatActivity {
                     editor.putInt("width", width);
                     editor.putInt("height", height);
                     //-- Left eye
-                    editor.putInt("ip_ad1", ip_ad1);
-                    editor.putInt("ip_ad2", ip_ad2);
-                    editor.putInt("ip_ad3", ip_ad3);
-                    editor.putInt("ip_ad4", ip_ad4);
-                    editor.putInt("ip_port", ip_port);
-                    editor.putString("ip_command", ip_command);
+                    editor.putInt("left_eye_ip_ad1", left_eye_ip_ad1);
+                    editor.putInt("left_eye_ip_ad2", left_eye_ip_ad2);
+                    editor.putInt("left_eye_ip_ad3", left_eye_ip_ad3);
+                    editor.putInt("left_eye_ip_ad4", left_eye_ip_ad4);
+                    editor.putInt("left_eye_ip_port", left_eye_ip_port);
+                    editor.putString("left_eye_ip_command", left_eye_ip_command);
                     //-- Right eye
                     editor.putInt("right_eye_ip_ad1", right_eye_ip_ad1);
                     editor.putInt("right_eye_ip_ad2", right_eye_ip_ad2);

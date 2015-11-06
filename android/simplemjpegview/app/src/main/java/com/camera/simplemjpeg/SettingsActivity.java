@@ -24,26 +24,28 @@ public class SettingsActivity extends Activity {
     EditText width_input;
     EditText height_input;
 
-    EditText address1_input;
-    EditText address2_input;
-    EditText address3_input;
-    EditText address4_input;
-    EditText port_input;
-    EditText command_input;
+    //-- Left eye UI
+    EditText left_eye_address1_input;
+    EditText left_eye_address2_input;
+    EditText left_eye_address3_input;
+    EditText left_eye_address4_input;
+    EditText left_eye_port_input;
+    EditText left_eye_command_input;
 
-    Button address1_increment;
-    Button address2_increment;
-    Button address3_increment;
-    Button address4_increment;
+    Button left_eye_address1_increment;
+    Button left_eye_address2_increment;
+    Button left_eye_address3_increment;
+    Button left_eye_address4_increment;
 
-    Button address1_decrement;
-    Button address2_decrement;
-    Button address3_decrement;
-    Button address4_decrement;
+    Button left_eye_address1_decrement;
+    Button left_eye_address2_decrement;
+    Button left_eye_address3_decrement;
+    Button left_eye_address4_decrement;
 
-    RadioGroup port_group;
-    RadioGroup command_group;
+    RadioGroup left_eye_port_group;
+    RadioGroup left_eye_command_group;
 
+    //-- Right eye UI
     EditText right_eye_address1_input;
     EditText right_eye_address2_input;
     EditText right_eye_address3_input;
@@ -67,12 +69,12 @@ public class SettingsActivity extends Activity {
     int width = 640;
     int height = 480;
 
-    int ip_ad1 = 192;
-    int ip_ad2 = 168;
-    int ip_ad3 = 2;
-    int ip_ad4 = 1;
-    int ip_port = 80;
-    String ip_command = "?action=stream";
+    int left_eye_ip_ad1 = 192;
+    int left_eye_ip_ad2 = 168;
+    int left_eye_ip_ad3 = 2;
+    int left_eye_ip_ad4 = 1;
+    int left_eye_ip_port = 80;
+    String left_eye_ip_command = "?action=stream";
 
     int right_eye_ip_ad1 = 192;
     int right_eye_ip_ad2 = 168;
@@ -103,15 +105,15 @@ public class SettingsActivity extends Activity {
         height_input = (EditText) findViewById(R.id.height_input);
 
         //-- Left eye stream elements
-        address1_input = (EditText) findViewById(R.id.address1_input);
-        address2_input = (EditText) findViewById(R.id.address2_input);
-        address3_input = (EditText) findViewById(R.id.address3_input);
-        address4_input = (EditText) findViewById(R.id.address4_input);
-        port_input = (EditText) findViewById(R.id.port_input);
-        command_input = (EditText) findViewById(R.id.command_input);
+        left_eye_address1_input = (EditText) findViewById(R.id.address1_input);
+        left_eye_address2_input = (EditText) findViewById(R.id.address2_input);
+        left_eye_address3_input = (EditText) findViewById(R.id.address3_input);
+        left_eye_address4_input = (EditText) findViewById(R.id.address4_input);
+        left_eye_port_input = (EditText) findViewById(R.id.port_input);
+        left_eye_command_input = (EditText) findViewById(R.id.command_input);
 
-        port_group = (RadioGroup) findViewById(R.id.port_radiogroup);
-        command_group = (RadioGroup) findViewById(R.id.command_radiogroup);
+        left_eye_port_group = (RadioGroup) findViewById(R.id.port_radiogroup);
+        left_eye_command_group = (RadioGroup) findViewById(R.id.command_radiogroup);
 
         //-- Right eye stream elements
         right_eye_address1_input = (EditText) findViewById(R.id.right_eye_address1_input);
@@ -153,19 +155,19 @@ public class SettingsActivity extends Activity {
             resolution_spinner.setSelection(adapter.getCount() - 1);
 
             //-- Configure left eye
-            ip_ad1 = extras.getInt("ip_ad1", ip_ad1);
-            ip_ad2 = extras.getInt("ip_ad2", ip_ad2);
-            ip_ad3 = extras.getInt("ip_ad3", ip_ad3);
-            ip_ad4 = extras.getInt("ip_ad4", ip_ad4);
-            ip_port = extras.getInt("ip_port", ip_port);
-            ip_command = extras.getString("ip_command");
+            left_eye_ip_ad1 = extras.getInt("left_eye_ip_ad1", left_eye_ip_ad1);
+            left_eye_ip_ad2 = extras.getInt("left_eye_ip_ad2", left_eye_ip_ad2);
+            left_eye_ip_ad3 = extras.getInt("left_eye_ip_ad3", left_eye_ip_ad3);
+            left_eye_ip_ad4 = extras.getInt("left_eye_ip_ad4", left_eye_ip_ad4);
+            left_eye_ip_port = extras.getInt("left_eye_ip_port", left_eye_ip_port);
+            left_eye_ip_command = extras.getString("left_eye_ip_command");
 
-            address1_input.setText(String.valueOf(ip_ad1));
-            address2_input.setText(String.valueOf(ip_ad2));
-            address3_input.setText(String.valueOf(ip_ad3));
-            address4_input.setText(String.valueOf(ip_ad4));
-            port_input.setText(String.valueOf(ip_port));
-            command_input.setText(ip_command);
+            left_eye_address1_input.setText(String.valueOf(left_eye_ip_ad1));
+            left_eye_address2_input.setText(String.valueOf(left_eye_ip_ad2));
+            left_eye_address3_input.setText(String.valueOf(left_eye_ip_ad3));
+            left_eye_address4_input.setText(String.valueOf(left_eye_ip_ad4));
+            left_eye_port_input.setText(String.valueOf(left_eye_ip_port));
+            left_eye_command_input.setText(left_eye_ip_command);
 
             //-- Configure right eye
             right_eye_ip_ad1 = extras.getInt("right_eye_ip_ad1", right_eye_ip_ad1);
@@ -215,12 +217,12 @@ public class SettingsActivity extends Activity {
         });
 
         //-- Left eye GUI configuration
-        address1_increment = (Button) findViewById(R.id.address1_increment);
-        address1_increment.setOnClickListener(
+        left_eye_address1_increment = (Button) findViewById(R.id.address1_increment);
+        left_eye_address1_increment.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
-                        String s = address1_input.getText().toString();
-                        int val = ip_ad1;
+                        String s = left_eye_address1_input.getText().toString();
+                        int val = left_eye_ip_ad1;
                         if (!"".equals(s)) {
                             val = Integer.parseInt(s);
                         }
@@ -232,18 +234,18 @@ public class SettingsActivity extends Activity {
                             val = 255;
                         }
 
-                        ip_ad1 = val;
-                        address1_input.setText(String.valueOf(ip_ad1), BufferType.NORMAL);
+                        left_eye_ip_ad1 = val;
+                        left_eye_address1_input.setText(String.valueOf(left_eye_ip_ad1), BufferType.NORMAL);
 
                     }
                 }
         );
-        address2_increment = (Button) findViewById(R.id.address2_increment);
-        address2_increment.setOnClickListener(
+        left_eye_address2_increment = (Button) findViewById(R.id.address2_increment);
+        left_eye_address2_increment.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
-                        String s = address2_input.getText().toString();
-                        int val = ip_ad2;
+                        String s = left_eye_address2_input.getText().toString();
+                        int val = left_eye_ip_ad2;
                         if (!"".equals(s)) {
                             val = Integer.parseInt(s);
                         }
@@ -255,18 +257,18 @@ public class SettingsActivity extends Activity {
                             val = 255;
                         }
 
-                        ip_ad2 = val;
-                        address2_input.setText(String.valueOf(ip_ad2), BufferType.NORMAL);
+                        left_eye_ip_ad2 = val;
+                        left_eye_address2_input.setText(String.valueOf(left_eye_ip_ad2), BufferType.NORMAL);
 
                     }
                 }
         );
-        address3_increment = (Button) findViewById(R.id.address3_increment);
-        address3_increment.setOnClickListener(
+        left_eye_address3_increment = (Button) findViewById(R.id.address3_increment);
+        left_eye_address3_increment.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
-                        String s = address3_input.getText().toString();
-                        int val = ip_ad3;
+                        String s = left_eye_address3_input.getText().toString();
+                        int val = left_eye_ip_ad3;
                         if (!"".equals(s)) {
                             val = Integer.parseInt(s);
                         }
@@ -278,18 +280,18 @@ public class SettingsActivity extends Activity {
                             val = 255;
                         }
 
-                        ip_ad3 = val;
-                        address3_input.setText(String.valueOf(ip_ad3), BufferType.NORMAL);
+                        left_eye_ip_ad3 = val;
+                        left_eye_address3_input.setText(String.valueOf(left_eye_ip_ad3), BufferType.NORMAL);
 
                     }
                 }
         );
-        address4_increment = (Button) findViewById(R.id.address4_increment);
-        address4_increment.setOnClickListener(
+        left_eye_address4_increment = (Button) findViewById(R.id.address4_increment);
+        left_eye_address4_increment.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
-                        String s = address4_input.getText().toString();
-                        int val = ip_ad4;
+                        String s = left_eye_address4_input.getText().toString();
+                        int val = left_eye_ip_ad4;
                         if (!"".equals(s)) {
                             val = Integer.parseInt(s);
                         }
@@ -301,19 +303,19 @@ public class SettingsActivity extends Activity {
                             val = 255;
                         }
 
-                        ip_ad4 = val;
-                        address4_input.setText(String.valueOf(ip_ad4), BufferType.NORMAL);
+                        left_eye_ip_ad4 = val;
+                        left_eye_address4_input.setText(String.valueOf(left_eye_ip_ad4), BufferType.NORMAL);
 
                     }
                 }
         );
 
-        address1_decrement = (Button) findViewById(R.id.address1_decrement);
-        address1_decrement.setOnClickListener(
+        left_eye_address1_decrement = (Button) findViewById(R.id.address1_decrement);
+        left_eye_address1_decrement.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
-                        String s = address1_input.getText().toString();
-                        int val = ip_ad1;
+                        String s = left_eye_address1_input.getText().toString();
+                        int val = left_eye_ip_ad1;
                         if (!"".equals(s)) {
                             val = Integer.parseInt(s);
                         }
@@ -325,19 +327,19 @@ public class SettingsActivity extends Activity {
                             val = 255;
                         }
 
-                        ip_ad1 = val;
-                        address1_input.setText(String.valueOf(ip_ad1), BufferType.NORMAL);
+                        left_eye_ip_ad1 = val;
+                        left_eye_address1_input.setText(String.valueOf(left_eye_ip_ad1), BufferType.NORMAL);
 
                     }
                 }
         );
 
-        address2_decrement = (Button) findViewById(R.id.address2_decrement);
-        address2_decrement.setOnClickListener(
+        left_eye_address2_decrement = (Button) findViewById(R.id.address2_decrement);
+        left_eye_address2_decrement.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
-                        String s = address2_input.getText().toString();
-                        int val = ip_ad2;
+                        String s = left_eye_address2_input.getText().toString();
+                        int val = left_eye_ip_ad2;
                         if (!"".equals(s)) {
                             val = Integer.parseInt(s);
                         }
@@ -349,18 +351,18 @@ public class SettingsActivity extends Activity {
                             val = 255;
                         }
 
-                        ip_ad2 = val;
-                        address2_input.setText(String.valueOf(ip_ad2), BufferType.NORMAL);
+                        left_eye_ip_ad2 = val;
+                        left_eye_address2_input.setText(String.valueOf(left_eye_ip_ad2), BufferType.NORMAL);
 
                     }
                 }
         );
-        address3_decrement = (Button) findViewById(R.id.address3_decrement);
-        address3_decrement.setOnClickListener(
+        left_eye_address3_decrement = (Button) findViewById(R.id.address3_decrement);
+        left_eye_address3_decrement.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
-                        String s = address3_input.getText().toString();
-                        int val = ip_ad3;
+                        String s = left_eye_address3_input.getText().toString();
+                        int val = left_eye_ip_ad3;
                         if (!"".equals(s)) {
                             val = Integer.parseInt(s);
                         }
@@ -372,18 +374,18 @@ public class SettingsActivity extends Activity {
                             val = 255;
                         }
 
-                        ip_ad3 = val;
-                        address3_input.setText(String.valueOf(ip_ad3), BufferType.NORMAL);
+                        left_eye_ip_ad3 = val;
+                        left_eye_address3_input.setText(String.valueOf(left_eye_ip_ad3), BufferType.NORMAL);
 
                     }
                 }
         );
-        address4_decrement = (Button) findViewById(R.id.address4_decrement);
-        address4_decrement.setOnClickListener(
+        left_eye_address4_decrement = (Button) findViewById(R.id.address4_decrement);
+        left_eye_address4_decrement.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
-                        String s = address4_input.getText().toString();
-                        int val = ip_ad4;
+                        String s = left_eye_address4_input.getText().toString();
+                        int val = left_eye_ip_ad4;
                         if (!"".equals(s)) {
                             val = Integer.parseInt(s);
                         }
@@ -395,29 +397,29 @@ public class SettingsActivity extends Activity {
                             val = 255;
                         }
 
-                        ip_ad4 = val;
-                        address4_input.setText(String.valueOf(ip_ad4), BufferType.NORMAL);
+                        left_eye_ip_ad4 = val;
+                        left_eye_address4_input.setText(String.valueOf(left_eye_ip_ad4), BufferType.NORMAL);
 
                     }
                 }
         );
 
-        port_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        left_eye_port_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.port_80) {
-                    port_input.setText(getString(R.string.port_80));
+                    left_eye_port_input.setText(getString(R.string.port_80));
                 } else if (checkedId == R.id.port_8080) {
-                    port_input.setText(getString(R.string.port_8080));
+                    left_eye_port_input.setText(getString(R.string.port_8080));
                 }
             }
         });
 
-        command_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        left_eye_command_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.command_streaming) {
-                    command_input.setText(getString(R.string.command_streaming));
+                    left_eye_command_input.setText(getString(R.string.command_streaming));
                 } else if (checkedId == R.id.command_videofeed) {
-                    command_input.setText(getString(R.string.command_videofeed));
+                    left_eye_command_input.setText(getString(R.string.command_videofeed));
                 }
             }
         });
@@ -649,30 +651,30 @@ public class SettingsActivity extends Activity {
                         }
 
                         //-- Left eye
-                        s = address1_input.getText().toString();
+                        s = left_eye_address1_input.getText().toString();
                         if (!"".equals(s)) {
-                            ip_ad1 = Integer.parseInt(s);
+                            left_eye_ip_ad1 = Integer.parseInt(s);
                         }
-                        s = address2_input.getText().toString();
+                        s = left_eye_address2_input.getText().toString();
                         if (!"".equals(s)) {
-                            ip_ad2 = Integer.parseInt(s);
+                            left_eye_ip_ad2 = Integer.parseInt(s);
                         }
-                        s = address3_input.getText().toString();
+                        s = left_eye_address3_input.getText().toString();
                         if (!"".equals(s)) {
-                            ip_ad3 = Integer.parseInt(s);
+                            left_eye_ip_ad3 = Integer.parseInt(s);
                         }
-                        s = address4_input.getText().toString();
+                        s = left_eye_address4_input.getText().toString();
                         if (!"".equals(s)) {
-                            ip_ad4 = Integer.parseInt(s);
-                        }
-
-                        s = port_input.getText().toString();
-                        if (!"".equals(s)) {
-                            ip_port = Integer.parseInt(s);
+                            left_eye_ip_ad4 = Integer.parseInt(s);
                         }
 
-                        s = command_input.getText().toString();
-                        ip_command = s;
+                        s = left_eye_port_input.getText().toString();
+                        if (!"".equals(s)) {
+                            left_eye_ip_port = Integer.parseInt(s);
+                        }
+
+                        s = left_eye_command_input.getText().toString();
+                        left_eye_ip_command = s;
 
                         //-- Right eye
                         s = right_eye_address1_input.getText().toString();
@@ -705,12 +707,12 @@ public class SettingsActivity extends Activity {
                         intent.putExtra("width", width);
                         intent.putExtra("height", height);
                         //-- Left eye
-                        intent.putExtra("ip_ad1", ip_ad1);
-                        intent.putExtra("ip_ad2", ip_ad2);
-                        intent.putExtra("ip_ad3", ip_ad3);
-                        intent.putExtra("ip_ad4", ip_ad4);
-                        intent.putExtra("ip_port", ip_port);
-                        intent.putExtra("ip_command", ip_command);
+                        intent.putExtra("left_eye_ip_ad1", left_eye_ip_ad1);
+                        intent.putExtra("left_eye_ip_ad2", left_eye_ip_ad2);
+                        intent.putExtra("left_eye_ip_ad3", left_eye_ip_ad3);
+                        intent.putExtra("left_eye_ip_ad4", left_eye_ip_ad4);
+                        intent.putExtra("left_eye_ip_port", left_eye_ip_port);
+                        intent.putExtra("left_eye_ip_command", left_eye_ip_command);
                         //-- Right eye
                         intent.putExtra("right_eye_ip_ad1", right_eye_ip_ad1);
                         intent.putExtra("right_eye_ip_ad2", right_eye_ip_ad2);
