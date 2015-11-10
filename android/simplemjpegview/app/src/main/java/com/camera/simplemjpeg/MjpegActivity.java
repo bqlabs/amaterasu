@@ -458,6 +458,11 @@ public class MjpegActivity extends AppCompatActivity {
             //-- Get params
             String url = params[0];
             eye = params[1];
+            if (!eye.equals("left") && !eye.equals("right"))
+            {
+                Log.e(TAG, "Bad params[1]");
+                return null;
+            }
             invert = Boolean.parseBoolean(params[2]);
 
             //TODO: if camera has authentication deal with it and don't just not work
@@ -504,7 +509,7 @@ public class MjpegActivity extends AppCompatActivity {
                 }
                 left_eye_mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
                 left_eye_mv.showFps(false);
-                left_eye_mv.setInverted(left_eye_invert_image);
+                left_eye_mv.setInverted(invert);
             }
             else if (eye.equals("right")) {
                 Log.i(TAG, "Right eye frame");
@@ -517,7 +522,7 @@ public class MjpegActivity extends AppCompatActivity {
                 }
                 right_eye_mv.setDisplayMode(MjpegView.SIZE_BEST_FIT);
                 right_eye_mv.showFps(false);
-                right_eye_mv.setInverted(right_eye_invert_image);
+                right_eye_mv.setInverted(invert);
             }
         }
     }

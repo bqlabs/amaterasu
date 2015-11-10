@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 import java.io.IOException;
 
@@ -61,13 +62,15 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
 
     public class MjpegViewThread extends Thread {
         private SurfaceHolder mSurfaceHolder;
+        private View mView;
         private int frameCounter = 0;
         private long start;
         private String fps = "";
 
 
-        public MjpegViewThread(SurfaceHolder surfaceHolder, Context context) {
+        public MjpegViewThread(SurfaceHolder surfaceHolder, Context context, View v) {
             mSurfaceHolder = surfaceHolder;
+            mView = v;
             matrix = new Matrix();
             matrix.postRotate(180);
         }
@@ -139,7 +142,9 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
                         if (bmp == null) {
                             bmp = Bitmap.createBitmap(IMG_WIDTH, IMG_HEIGHT, Bitmap.Config.ARGB_8888);
                         }
-                        int ret = mIn.readMjpegFrame(bmp);
+                        //int ret = mIn.readMjpegFrame(bmp);
+                        bmp = mIn.readMjpegFrame();
+
                         if (inverted) {
                             Rbmp = InvertBitmap(bmp);
                             Log.i(TAG, "RotateBitmap: 180º");
@@ -147,7 +152,8 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
                             Rbmp = bmp;
                         }
 
-                        if (ret == -1) {
+                        //if (ret == -1) {
+                        if (bmp == null) {
                             ((MjpegActivity) saved_context).setImageError();
                             return;
                         }
@@ -155,6 +161,8 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
                         destRect = destRect(bmp.getWidth(), bmp.getHeight());
 
                         c = mSurfaceHolder.lockCanvas();
+                        // Log.d(TAG, mIn.toString() + " Writing to : " + mView.getLeft() + ", " + mView.getTop());
+
                         synchronized (mSurfaceHolder) {
 
                             c.drawBitmap(Rbmp, null, destRect, p);
@@ -200,7 +208,7 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
         holder = getHolder();
         saved_context = context;
         holder.addCallback(this);
-        thread = new MjpegViewThread(holder, context);
+        thread = new MjpegViewThread(holder, context, this);
         setFocusable(true);
         overlayPaint = new Paint();
         overlayPaint.setTextAlign(Paint.Align.LEFT);
@@ -218,7 +226,7 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
         if (mIn != null) {
             mRun = true;
             if (thread == null) {
-                thread = new MjpegViewThread(holder, saved_context);
+                thread = new MjpegViewThread(holder, saved_context, this);
             }
             thread.start();
         }
@@ -230,7 +238,7 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
                 mRun = true;
                 SurfaceHolder holder = getHolder();
                 holder.addCallback(this);
-                thread = new MjpegViewThread(holder, saved_context);
+                thread = new MjpegViewThread(holder, saved_context, this);
                 thread.start();
                 suspending = false;
             }
@@ -336,6 +344,9 @@ public class MjpegView extends SurfaceView implements SurfaceHolder.Callback {
         return mRun;
     }
 
+
+    //-- To invert the image
+    //----------------------------------------------------------------------------------------------
     public void setInverted(boolean inverted ) { this.inverted = inverted; }
 
     /* From: http://stackoverflow.com/questions/4166917/android-how-to-rotate-a-bitmap-on-a-center-point */

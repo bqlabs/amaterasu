@@ -183,6 +183,7 @@ public class MjpegInputStream extends DataInputStream {
         readFully(frameData, 0, mContentLength);
 
         if (count++ % skip == 0) {
+            //Log.d(TAG, "Read (Bitmap) from " + this.hashCode());
             return BitmapFactory.decodeStream(new ByteArrayInputStream(frameData, 0, mContentLength));
         } else {
             return null;
@@ -250,6 +251,7 @@ public class MjpegInputStream extends DataInputStream {
         readFully(frameData, 0, mContentLength);
 
         if (count++ % skip == 0) {
+            //Log.d(TAG, "Read (int) from " + this.hashCode());
             return pixeltobmp(frameData, mContentLength, bmp);
         } else {
             return 0;
