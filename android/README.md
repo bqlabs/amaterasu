@@ -1,0 +1,1 @@
+simplemjpegview: Original code forked from [bitbucket](https://bitbucket.org/neuralassembly/simplemjpegview) . Original readme is kept in the folder as original_README.md

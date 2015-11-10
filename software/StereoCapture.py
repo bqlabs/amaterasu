@@ -4,6 +4,8 @@ import time
 
 __author__ = 'def'
 
+record_video = True
+
 left_camera_device = '/dev/video1'
 right_camera_device = '/dev/video2'
 
@@ -46,12 +48,12 @@ def capture_stereo_pair_without_sync(left_camera, right_camera):
 
 def main():
     left_camera = cv2.VideoCapture(1)
-    left_camera.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1024)
-    left_camera.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 768)
+    left_camera.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 800)
+    left_camera.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 480)
     # left_camera.open()
     right_camera = cv2.VideoCapture(2)
-    right_camera.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1024)
-    right_camera.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 768)
+    right_camera.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 800)
+    right_camera.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 480)
     # right_camera.open()
 
     if not left_camera.isOpened():
@@ -60,6 +62,10 @@ def main():
     if not right_camera.isOpened():
         print "Error opening right camera"
         exit(-1)
+
+    if record_video:
+        # Video output
+        writer = cv2.VideoWriter(time.strftime("stereo-%d_%m_%y-%H_%M_%S.avi"), cv2.cv.FOURCC('M','J','P','G'), 25, (1160,480))
 
     #  Camera startup
     tries = 0
@@ -74,33 +80,42 @@ def main():
     else:
         print "Timeout reading cameras"
 
-    left_picture, right_picture = capture_stereo_pair(left_camera, right_camera)
-    rotated_right = np.rot90(right_picture, 2)
+    while True:
+        left_picture, right_picture = capture_stereo_pair(left_camera, right_camera)
+        rotated_right = np.rot90(right_picture, 2)
 
-    cv2.imshow('Left image', left_picture)
-    cv2.imshow('Right image', rotated_right)
+        #cv2.imshow('Left image', left_picture)
+        #cv2.imshow('Right image', rotated_right)
 
-    # Scale images
-    factor = viewer_resolution[1] / float(webcam_resolution[1])
-    left_resized = cv2.resize(left_picture, None, fx=factor, fy=factor, interpolation=cv2.INTER_CUBIC)
-    right_resized = cv2.resize(rotated_right, None, fx=factor, fy=factor, interpolation=cv2.INTER_CUBIC)
+        # Scale images
+        factor = viewer_resolution[1] / float(webcam_resolution[1])
+        left_resized = cv2.resize(left_picture, None, fx=factor, fy=factor, interpolation=cv2.INTER_CUBIC)
+        right_resized = cv2.resize(rotated_right, None, fx=factor, fy=factor, interpolation=cv2.INTER_CUBIC)
 
-    # Calculate optic axis (Approximately)
-    left_center = (left_resized.shape[0]/2, left_resized.shape[1]/2)
-    right_center = (right_resized.shape[0]/2, right_resized.shape[1]/2)
+        # Calculate optic axis (Approximately)
+        left_center = (left_resized.shape[0]/2, left_resized.shape[1]/2)
+        right_center = (right_resized.shape[0]/2, right_resized.shape[1]/2)
 
-    # Concatenate images (based on optical center):
-    half_size_eye = viewer_resolution[0]/4
-    combined_image = np.concatenate((left_picture[:,left_center[0]-half_size_eye:left_center[0]+half_size_eye, :],
-                                     rotated_right[:, right_center[0]-half_size_eye:right_center[0]+half_size_eye, :]),
-                                    axis=1)
+        # Concatenate images (based on optical center):
+        half_size_eye = viewer_resolution[0]/4
+        combined_image = np.concatenate((left_picture[:,left_center[0]-half_size_eye:left_center[0]+half_size_eye, :],
+                                         rotated_right[:, right_center[0]-half_size_eye:right_center[0]+half_size_eye, :]),
+                                        axis=1)
 
 
-    cv2.imshow('Stereo pair', combined_image)
-    cv2.waitKey(-1)
+        cv2.imshow('Stereo pair', combined_image)
+
+        user_input = cv2.waitKey(1) & 0xFF
+        if user_input == ord('q'):
+            break
+        elif user_input == ord('c'):
+            cv2.imwrite(time.strftime("stereo-%d_%m_%y-%H_%M_%S.png"), combined_image)
+            break
+
+        if record_video:
+            writer.write(combined_image)
+
     cv2.destroyAllWindows()
-
-    cv2.imwrite(time.strftime("stereo-%d_%m_%y-%H_%M_%S.png"), combined_image)
 
     left_camera.release()
     right_camera.release()
